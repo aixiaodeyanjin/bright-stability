@@ -1,0 +1,10 @@
+/* 苹方-简 常规体 */
+@font-face {
+    font-family: PingFangSC-Regular;
+    src: url("/stability/static/fonts/PingFangSC-Regular.ttf");
+}
+/* 方方先锋体 */
+@font-face {
+    font-family: zihun100hao-fangfangxianfengti;
+    src: url("/stability/static/fonts/fangfangxianfeng.ttf")
+}
