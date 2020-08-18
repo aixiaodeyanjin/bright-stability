@@ -51,9 +51,9 @@ class CesiumViewerFactory {
         .addBuildAfter(viewer => {
           var palaceTileset = new Cesium.Cesium3DTileset({
             url: '/xlgc/data/Scene/3dtile.json',
-            maximumScreenSpaceError: 0,
-            // maximumMemoryUsage: Number.MAX_SAFE_INTEGER,
-            // preferLeaves: true,
+            maximumScreenSpaceError: 1,
+            maximumMemoryUsage: Number.MAX_SAFE_INTEGER,
+            preferLeaves: true,
             modelMatrix: Cesium.Matrix4.fromTranslation(Cesium.Cartesian3.fromArray([8, -7, -16]))
           })
           viewer.scene.primitives.add(palaceTileset)
