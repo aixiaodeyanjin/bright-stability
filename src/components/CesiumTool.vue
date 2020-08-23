@@ -6,7 +6,7 @@
     <transition name="tool-box">
       <div class="tool-box" v-show="isToolboxShow">
         <div class="tab">
-          <a class="icon-people" :class="{active : 0 == toolboxTabActivedIndex}" href="javascript:void(0);" @click="changeToolboxTab(0)">俯瞰</a>
+          <a class="icon-people" :class="{active : 0 == toolboxTabActivedIndex}" href="javascript:void(0);" @click="changeToolboxTab(0)">漫步</a>
           <a class="icon-video" :class="{active : 1 == toolboxTabActivedIndex}" href="javascript:void(0);" @click="changeToolboxTab(1)">视频墙</a>
           <a class="icon-measure" :class="{active : 2 == toolboxTabActivedIndex}" href="javascript:void(0);" @click="changeToolboxTab(2)">量算</a>
           <a class="icon-sun" :class="{active : 3 == toolboxTabActivedIndex}" href="javascript:void(0);" @click="changeToolboxTab(3)">光照分析</a>
