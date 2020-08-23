@@ -2,7 +2,8 @@ import * as Cesium from 'cesium'
 import CesiumViewerBuilder from './CesiumViewerBuilder'
 import CesiumNavigation from 'cesium-navigation-es6'
 import ShowPosition from './ShowPosition'
-import loadBuildingInfo from './loader/BuildingLoader'
+import loadBuildingInfo from '../loader/BuildingLoader'
+import EntityManager from './EntityManager'
 class CesiumViewerFactory {
     static defaultMap = null;
     static getDefaultMap (domId) {
@@ -20,11 +21,20 @@ class CesiumViewerFactory {
         .vrButton(false)
         .hideCredit()
         .infoBox(false)
+        .shouldAnimate(true)
+        .terrainProvider(Cesium.createWorldTerrain({
+          // requestVertexNormals: true
+          // requestWaterMask: true
+        }))
+        // .terrainProvider(Cesium.createWorldTerrain({
+        //   // requestVertexNormals: true
+        //   // requestWaterMask: true
+        // }))
         .imageryProvider(
           new Cesium.UrlTemplateImageryProvider({
             url: 'http://{s}.google.cn/vt/lyrs=s&hl=zh-CN&x={x}&y={y}&z={z}&s=Gali',
             minimumLevel: 1,
-            maximumLevel: 25,
+            maximumLevel: 22,
             subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
           })
         )
@@ -44,6 +54,7 @@ class CesiumViewerFactory {
               format: 'image/jpeg',
               tileMatrixSetID: 'GoogleMapsCompatible',
               show: false,
+              maximumLevel: 26,
               subdomains: ['t0', 't1', 't2', 't3', 't4', 't5', 't6', 't7']
             })
           )
@@ -52,9 +63,10 @@ class CesiumViewerFactory {
           var palaceTileset = new Cesium.Cesium3DTileset({
             url: '/xlgc/data/Scene/3dtile.json',
             maximumScreenSpaceError: 1,
-            maximumMemoryUsage: Number.MAX_SAFE_INTEGER,
+            maximumMemoryUsage: 512,
             preferLeaves: true,
-            modelMatrix: Cesium.Matrix4.fromTranslation(Cesium.Cartesian3.fromArray([8, -7, -16]))
+            // modelMatrix: Cesium.Matrix4.fromTranslation(Cesium.Cartesian3.fromArray([8, -7, -16]))
+            modelMatrix: Cesium.Matrix4.fromTranslation(Cesium.Cartesian3.fromArray([-1, 8, -1]))
           })
           viewer.scene.primitives.add(palaceTileset)
           viewer.flyTo(palaceTileset)
@@ -77,10 +89,15 @@ class CesiumViewerFactory {
           ShowPosition(viewer, Cesium, 'cesiumContainer')
         })
         .addBuildAfter(viewer => {
+          // viewer.scene.globe.enableLighting = true
           viewer.scene.screenSpaceCameraController.minimumZoomDistance = 1
           viewer.scene.screenSpaceCameraController.maximumZoomDistance = 30000000
+          // viewer.resolutionScale = viewer.useBrowserRecommendedResolution
         })
         .addBuildAfter(loadBuildingInfo)
+        .addBuildAfter(viewer => {
+          viewer.entityManager = new EntityManager(viewer)
+        })
         .build())
     }
 }

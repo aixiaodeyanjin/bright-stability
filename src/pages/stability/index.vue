@@ -1,6 +1,6 @@
 <template>
 <div class="content">
-  <div id="cesiumContainer"></div>
+  <div id="cesiumContainer"><CesiumTool></CesiumTool></div>
   <div class="main wending-main">
     <div class="menus_search" v-show="showSearchDom">
       <div class="tabbar">
@@ -472,8 +472,11 @@
 </template>
 
 <script>
-import MapContext from '@/assets/js/map/MapContext'
+import 'cesium/Source/Widgets/widgets.css'
+import {CesiumMapContext, MapContextHolder, CesiumViewerFactory} from '@/assets/js/map'
+import CesiumTool from '@/components/CesiumTool'
 export default {
+  components: {CesiumTool},
   data: function () {
     return {
       searchList: [
@@ -544,17 +547,20 @@ export default {
       showFullInfoPassword: '123456',
       inputPasswordValue: '',
       showInputPasswordDom: false,
-      showInputPasswordIndex: -1 // 所选人员信息下标
+      showInputPasswordIndex: -1, // 所选人员信息下标
+      x: 8,
+      y: -7,
+      z: 16
     }
   },
-  created () {
-    //
-  },
   mounted () {
-    const mapContext = new MapContext('cesiumContainer')
-    this.$map = Object.freeze(mapContext)
+    // 初始化cesium
+    const viewer = CesiumViewerFactory.getDefaultMap('cesiumContainer')
+    const cesiumMapContext = new CesiumMapContext(viewer)
+    MapContextHolder.setContext(cesiumMapContext)
+
     let that = this
-    mapContext.addEnityClickedListener((e, pick) => {
+    cesiumMapContext.addEnityClickedListener((e, pick) => {
       var playWind = document.getElementById('playWind')
       if (pick && pick.id) {
         var playWindContent = document.getElementById('playWindContent')
@@ -574,6 +580,9 @@ export default {
         playWind.style.display = 'none'
       }
     })
+  },
+  beforeDestroy () {
+    MapContextHolder.clearContext()
   },
   methods: {
     clickMapToShowTable (tableIndex = 0, params) { // 点击地图标记点显示右侧信息汇总表格
@@ -991,7 +1000,7 @@ export default {
       this.houseChooseIndex = index
       var longitude = local.split(',')[0] * 1
       var latitude = local.split(',')[1] * 1
-      this.$map.flyToPeopleHouse(longitude, latitude)
+      MapContextHolder.getMap().flyToPeopleHouse(longitude, latitude)
     },
     judgeIdCode (idcode) { // 判断身份证格式
       let isIdCode = true
@@ -1076,11 +1085,13 @@ export default {
     width: 30px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     font-weight: 300;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
+    background-color: rgba(47,53,60,.8);
+    border-radius: 10px;
+    opacity: .7;
+}
+.navigation-controls:hover {
+    opacity: .9;
 }
 /**标尺 */
 .distance-legend {
@@ -1089,7 +1100,7 @@ export default {
     border-radius: 15px;
     padding-left: 5px;
     padding-right: 5px;
-    bottom: 50px;
+    bottom: 60px;
     height: 30px;
     width: 125px;
     -webkit-box-sizing: content-box;

@@ -29,7 +29,7 @@ export default function loadBuildingInfo (viewer) {
         },
         label: {
           text: element.name,
-          font: '12px Microsoft YaHei',
+          font: '15px Microsoft YaHei',
           style: Cesium.LabelStyle.FILL_AND_OUTLINE,
           fillColor: Cesium.Color.fromCssColorString(
             '#ffffff'
@@ -37,8 +37,7 @@ export default function loadBuildingInfo (viewer) {
           outlineWidth: 3,
           horizontalOrigin: Cesium.HorizontalOrigin.LEFT,
           verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-          pixelOffset: new Cesium.Cartesian2(15, -2), // 偏移量
-          disableDepthTestDistance: 1000000000
+          pixelOffset: new Cesium.Cartesian2(-40, 25) // 偏移量
         },
         attrInfo: '',
         description: ''
@@ -48,57 +47,60 @@ export default function loadBuildingInfo (viewer) {
   INSTACNE.get(PARTY_ACTIVE_URL).then(resp => resp.data).then(element => {
     let x = element.local.split(',')[0] * 1
     let y = element.local.split(',')[1] * 1
-    let h = 38
+    let h = 48
+    var position = Cesium.Cartesian3.fromDegrees(
+      x,
+      y,
+      h
+    )
+    var heading = Cesium.Math.toRadians(90)
+    var pitch = 0
+    var roll = 0
+    var hpr = new Cesium.HeadingPitchRoll(heading, pitch, roll)
+    var orientation = Cesium.Transforms.headingPitchRollQuaternion(
+      position,
+      hpr
+    )
     viewer.entities.add({
       id: element.id,
       code: element.id,
       name: element.name,
-      position: Cesium.Cartesian3.fromDegrees(x, y, h),
-      label: {
-        text: element.name,
-        font: '12px Microsoft YaHei',
-        style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-        fillColor: Cesium.Color.fromCssColorString(
-          '#ffffff'
-        ).withAlpha(1),
-        outlineWidth: 3,
-        horizontalOrigin: Cesium.HorizontalOrigin.LEFT,
-        verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-        pixelOffset: new Cesium.Cartesian2(15, -2), // 偏移量
-        disableDepthTestDistance: 1000000000
-      },
+      position: position,
+      orientation,
       model: {
-        uri: MODEL_URL_COMMUNITY_CENTER,
+        uri: MODEL_URL_PARTY_CENTER,
         scale: 1
       },
       attrInfo: '',
       description: element.desc
     })
   })
+
   INSTACNE.get(RESIDENT_ACTIVE_URL).then(resp => resp.data).then(element => {
-    let x = element.local.split(',')[0] * 1
-    let y = element.local.split(',')[1] * 1
-    let h = 38
+    let x = element.local.split(',')[0] * 1 - 0.0001
+    let y = element.local.split(',')[1] * 1 - 0.0001
+    let h = 48
+    var position = Cesium.Cartesian3.fromDegrees(
+      x,
+      y,
+      h
+    )
+    var heading = Cesium.Math.toRadians(90)
+    var pitch = 0
+    var roll = 0
+    var hpr = new Cesium.HeadingPitchRoll(heading, pitch, roll)
+    var orientation = Cesium.Transforms.headingPitchRollQuaternion(
+      position,
+      hpr
+    )
     viewer.entities.add({
       id: element.id,
       code: element.id,
       name: element.name,
-      position: Cesium.Cartesian3.fromDegrees(x, y, h),
-      label: {
-        text: element.name,
-        font: '12px Microsoft YaHei',
-        style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-        fillColor: Cesium.Color.fromCssColorString(
-          '#ffffff'
-        ).withAlpha(1),
-        outlineWidth: 3,
-        horizontalOrigin: Cesium.HorizontalOrigin.LEFT,
-        verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-        pixelOffset: new Cesium.Cartesian2(15, -2), // 偏移量
-        disableDepthTestDistance: 1000000000
-      },
+      orientation,
+      position,
       model: {
-        uri: MODEL_URL_PARTY_CENTER,
+        uri: MODEL_URL_COMMUNITY_CENTER,
         scale: 1
       },
       attrInfo: '',

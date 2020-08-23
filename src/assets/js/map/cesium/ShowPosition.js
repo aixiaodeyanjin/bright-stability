@@ -46,7 +46,7 @@ function ShowPosition (viewer, Cesium, cesiumContainer) {
 function createPositionBar (cesiumContainer) {
   let CesiumBottomBar = document.createElement('div')
   CesiumBottomBar.id = 'CesiumBottomBar'
-  let CesiumBottomStyle = 'position: absolute; bottom: 5px;z-index:1000;opacity: 1;width: 100%;height: 24.3px;' +
+  let CesiumBottomStyle = 'position: absolute; bottom: 35px;z-index:1000;opacity: 1;width: auto;right: 0px;height: 24.3px;' +
     'display: block;padding: 2px;background: rgba(42, 42, 42, 0);'
   CesiumBottomBar.style.cssText = CesiumBottomStyle
 

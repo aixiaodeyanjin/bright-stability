@@ -673,13 +673,10 @@ a {
 }
 
 #cesiumContainer {
-    /* position: absolute;
     top: 0;
     width: 100%;
-    height: 100%; */
     z-index: -10;
     height: 100%;
-    /* height: calc(100vh - 60px); */
 }
 
 .bg_top,
@@ -1445,7 +1442,7 @@ a {
 }
 
 .build_info .first .list .item .btn_room .btn:nth-child(2n+1) {
-    margin-right: calc(100% - 1.6px);
+    margin-right: calc(100% - 1.6rem);
 }
 
 .build_info .first .list .item .btn_room .icondanghui {

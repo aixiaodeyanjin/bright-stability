@@ -119,6 +119,11 @@ class CesiumViewerBuilder {
       return this
     }
 
+    shouldAnimate (shouldAnimate) {
+      this.userOptions.shouldAnimate = shouldAnimate
+      return this
+    }
+
     /**
      * 是否显示地图模式切换控件
      * 在3D，2D和Columbus View（CV）模式之间切换。
@@ -163,6 +168,15 @@ class CesiumViewerBuilder {
      */
     imageryProvider (imageryProvider) {
       this.userOptions.imageryProvider = imageryProvider
+      return this
+    }
+
+    /**
+     * 地形
+     * @param {terrainProvider} terrainProvider
+     */
+    terrainProvider (terrainProvider) {
+      this.userOptions.terrainProvider = terrainProvider
       return this
     }
 
