@@ -27,7 +27,7 @@ function ShowPosition (viewer, Cesium, cesiumContainer) {
       longitudeString.innerText = '经度：' + Cesium.Math.toDegrees(cartographic.longitude).toFixed(8)
       latitudeString.innerText = '纬度：' + Cesium.Math.toDegrees(cartographic.latitude).toFixed(8)
       // 获取相机高度
-      height.innerText = '镜头高度：' + Math.ceil(viewer.camera.positionCartographic.height).toString()
+      height.innerText = '镜头高度：' + Math.ceil(viewer.camera.positionCartographic.height).toString() + '米'
     } else {
       longitudeString.innerText = ''
       latitudeString.innerText = ''
@@ -37,7 +37,7 @@ function ShowPosition (viewer, Cesium, cesiumContainer) {
   // 设置鼠标滚动事件的处理函数，这里负责监听高度值变化
   handler.setInputAction(function (wheelment) {
     var cartographic = ellipsoid.cartesianToCartographic(cartesian)
-    height.innerText = '镜头高度：' + Math.ceil(viewer.camera.positionCartographic.height)
+    height.innerText = '镜头高度：' + Math.ceil(viewer.camera.positionCartographic.height) + '米'
     longitudeString.innerText = '经度：' + Cesium.Math.toDegrees(cartographic.longitude)
     latitudeString.innerText = '纬度：' + Cesium.Math.toDegrees(cartographic.latitude)
   }, Cesium.ScreenSpaceEventType.WHEEL)
@@ -46,7 +46,7 @@ function ShowPosition (viewer, Cesium, cesiumContainer) {
 function createPositionBar (cesiumContainer) {
   let CesiumBottomBar = document.createElement('div')
   CesiumBottomBar.id = 'CesiumBottomBar'
-  let CesiumBottomStyle = 'position: absolute; bottom: 35px;z-index:1000;opacity: 1;width: auto;right: 0px;height: 24.3px;' +
+  let CesiumBottomStyle = 'position: absolute; bottom: 10px;z-index:1000;opacity: 1;width: auto;right: 0px;height: 24.3px;' +
     'display: block;padding: 2px;background: rgba(42, 42, 42, 0);'
   CesiumBottomBar.style.cssText = CesiumBottomStyle
 
