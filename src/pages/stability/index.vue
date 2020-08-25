@@ -1,6 +1,6 @@
 <template>
 <div class="content">
-  <div id="cesiumContainer"><CesiumTool></CesiumTool></div>
+  <div id="cesiumContainer"><CesiumToolBox></CesiumToolBox></div>
   <div class="main wending-main">
     <div class="menus_search" v-show="showSearchDom">
       <div class="tabbar">
@@ -474,9 +474,9 @@
 <script>
 import 'cesium/Source/Widgets/widgets.css'
 import {CesiumMapContext, MapContextHolder, CesiumViewerFactory} from '@/assets/js/map'
-import CesiumTool from '@/components/CesiumTool'
+import CesiumToolBox from '@/components/CesiumToolBox'
 export default {
-  components: {CesiumTool},
+  components: {CesiumToolBox},
   data: function () {
     return {
       searchList: [

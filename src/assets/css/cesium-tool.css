@@ -5,6 +5,9 @@
     z-index: 1;
     color: #000;
 }
+.cesium-tool .btn {
+    cursor: pointer;
+}
 .cesium-tool .btn-group .tool-btn {
     background: url('../img/stability/tool/tool_btn.png');
     background-repeat:no-repeat;
@@ -35,7 +38,7 @@
 }
 .tool-box > .tab {
     padding: 15px 10px 0px;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid white;
 }
 .tool-box > .tab > a {
     display: inline-block;
@@ -68,9 +71,6 @@
 }
 
 /** TAB CONTEXT */
-.cesium-tool .tab-context {
-    padding: 10px 10px;
-}
 .cesium-tool .tab-context .title {
     display: inline-block;
     font-size: 13px;
@@ -165,7 +165,7 @@
     padding: 3px 3px;
     cursor: pointer;
 }
-.path-items > .path > .btn > i.active {
+i.active {
     color: red;
 }
 .path-items > .path > .preview {
@@ -180,7 +180,9 @@
 .cesium-viewer-timelineContainer {
     z-index: 10000000000000000000000;
 }
-
+.watch-box {
+    padding: 10px 10px;
+}
 .watch-box > .positions input {
     border: 2px solid #5E6C77;
     font-size: 0.7em;
@@ -216,4 +218,70 @@
 
 .tab > a:hover {
     transform: scale(1.1);
+}
+
+/** ---------------------------------------量算 */
+.cesium-tool .tab-context .measure-box .title {
+    margin-left: 9px;
+}
+.measure-type-tab {
+    display: flex;
+    justify-content: center;
+    margin: 5px auto;
+}
+
+.measure-type-tab > a {
+    border-radius: 6px;
+    width: 270px;
+    padding: 0 4px;
+    text-decoration-line: none;
+    color: #000;
+    padding: 7px;
+    font-size: 13px;
+    margin: 1px 23px;
+    text-align: center;
+}
+
+.measure-type-tab > a.active {
+    color:#23C4F8;
+    box-shadow: 0 4px 12px -1px rgba(18, 22, 33, 0.08);
+    background: #ffffff54;
+}
+.distance-history {
+    height: 367px;
+    overflow: auto;
+}
+.table {
+    display: table;
+    border-top: 1px solid white;
+    border-left: 1px solid white;
+    margin: 5px;
+    width: 372px;
+    text-align: center;
+    word-wrap:break-word;
+    font-family: "Microsoft YaHei";
+    font-weight: normal;
+    font-size: 14px;
+}
+.table > .t-header {
+    display: table-header-group;
+}
+.table > .t-body {
+    display: table-row-group;
+    overflow: hidden;
+    height: 100px;
+}
+.table .t-row {
+    display: table-row;
+}
+.table .t-row .t-cell {
+    display: table-cell;
+}
+.table .t-row:not(:last-child) {
+    border-bottom: 1px solid white;
+}
+.table .t-row .t-cell {
+    border-right: 1px solid white;
+    border-bottom: 1px solid white;
+    padding: 5px 0px;
 }

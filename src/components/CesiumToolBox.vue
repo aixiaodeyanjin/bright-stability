@@ -56,11 +56,51 @@
           </div>
 
           <div class="video-wall-box" :class="{active : 1 == toolboxTabActivedIndex}">
-
+              <!-- <video src="http://vfx.mtime.cn/Video/2019/02/04/mp4/190204084208765161.mp4" style="width: 363px;" controls loop preload="auto" autoplay="autoplay"></video> -->
           </div>
 
           <div class="measure-box" :class="{active : 2 == toolboxTabActivedIndex}">
+            <div class="measure-type-tab">
+              <a href="javascript:void(0)" class="btn" :class="{active : measure.type == 0}" @click="changeMeasure(0)"><i class="iconfont icon-chizi"></i> 距离</a>
+              <a href="javascript:void(0)" class="btn" :class="{active : measure.type == 1}" @click="changeMeasure(1)"><i class="iconfont icon-mianji"></i> 面积</a>
+              <!-- <a href="javascript:void(0)" class="btn" :class="{active : measure.type == 2}" @click="changeMeasure(2)"><i class="iconfont icon-iconfonttubiao_gaodu"></i> 高度</a> -->
+            </div>
+            <div class="title">测量历史</div>
+            <div class="btn-group-simple right">
+               <a href="javascript:void(0);" class="btn-simple" @click="saveMeasure()" v-show="measure.measureTool.isRun && measure.measureTool.canSave">保存测量</a>
+              <a href="javascript:void(0);" class="btn-simple" @click="cancelMeasure()" v-show="measure.measureTool.isRun">取消测量</a>
+              <a href="javascript:void(0);" class="btn-simple" @click="doMeasure(measure.type)" v-show="!measure.measureTool.isRun">新建测量</a>
+            </div>
+            <div class="distance-measure">
+              <div class="distance-history" v-show="measure.type == 0">
+                <div class="table">
+                  <thead class="t-header">
+                    <tr class="t-row">
+                      <th class="t-cell">测量时间</th>
+                      <th class="t-cell">总长</th>
+                      <th class="t-cell">操作</th>
+                    </tr>
+                  </thead>
+                  <tbody class="t-body">
+                    <tr class="t-row" v-for="(distance, i) in measure.distances" :key="i">
+                      <td class="t-cell">{{formatTime(distance.data.time)}}</td>
+                      <td class="t-cell">{{distance.data.totalDistance.toFixed(3)}}米</td>
+                      <td class="t-cell">
+                        <span class="btn" @click="viewMeasure(distance)"><i class="iconfont icon-yulan" :class="{ 'active' : distance.show}"></i>查看</span> |
+                        <span class="btn" @click="delMeasure(distance.id)"><i class="iconfont icon-del"></i>删除</span>
+                      </td>
+                    </tr>
+                    <tr class="t-row" v-if="measure.distances.length <= 0"><td class="t-cell" colspan="4">暂无数据...</td></tr>
+                  </tbody>
+                </div>
+              </div>
+            </div>
+            <div class="area-measure" v-show="measure.type == 1">
 
+            </div>
+            <div class="height-measure" v-show="measure.type == 2">
+
+            </div>
           </div>
 
           <div class="sun-box" :class="{active : 3 == toolboxTabActivedIndex}">
@@ -79,8 +119,8 @@
 
 <script>
 import '@/assets/css/cesium-tool.css'
-import { PlanWatchPathTool } from '@/assets/js/map/drawtool'
-import { Math as CesiumMath, Cartesian3, SampledPositionProperty, CallbackProperty, JulianDate, ClockRange, VelocityOrientationProperty, Cartographic, defined, Transforms, Matrix4, Matrix3, createGuid, HeadingPitchRange } from 'cesium'
+import { PlanWatchPathTool, Measure } from '@/assets/js/map/drawtool'
+import { Math as CesiumMath, Cartesian3, SampledPositionProperty, CallbackProperty, JulianDate, ClockRange, VelocityOrientationProperty, Cartographic, defined, Transforms, Matrix4, Matrix3, createGuid, HeadingPitchRange, Entity, Color } from 'cesium'
 import { MapContextHolder } from '@/assets/js/map/index'
 import moment from 'moment'
 import CacheManagerFactory from '@/assets/js/cache/CacheManagerFactory'
@@ -97,7 +137,16 @@ export default {
       lookAt: {
         x: 0, y: 0, z: 100
       },
-      lookAts: []
+      lookAts: [],
+      measure: {
+        measureTool: {},
+        isSaveBtnShow: false,
+        isRun: false,
+        type: 0,
+        distances: [],
+        areas: [],
+        height: []
+      }
     }
   },
   computed: {
@@ -110,6 +159,10 @@ export default {
     const pathCache = cacheManager.getCache(PATH_CACHE_NAME)
     pathCache.getAll().then(data => {
       this.cachePaths = data || []
+    })
+    const distanceMeasureCache = cacheManager.getCache(Measure.DistanceMeasure.MEASURE_GROUP_ID)
+    distanceMeasureCache.getAll().then(data => {
+      this.measure.distances = data || []
     })
   },
   methods: {
@@ -175,7 +228,7 @@ export default {
       })
       let that = this
       let id = createGuid()
-      let newPath = {id, title: new Date().toString(), path, lookAts: this.lookAts}
+      let newPath = {id, title: new Date().toISOString(), path, lookAts: this.lookAts}
       const cacheManager = CacheManagerFactory.getDefaultCacheManager()
       const pathCache = cacheManager.getCache(PATH_CACHE_NAME)
       pathCache.put(id, newPath).then(data => {
@@ -268,7 +321,6 @@ export default {
           viewer.clock.clockRange = ClockRange.LOOP_STOP // Loop at the end
           viewer.clock.multiplier = 1
           // viewer.timeline.zoomTo(start.clone(), nextTime.clone())
-
           viewer.entities.removeById(preId)
           let peopleModel = viewer.entities.add({
             id: entityId,
@@ -281,52 +333,107 @@ export default {
             },
             viewFrom: new Cartesian3(0, -90, 40)
           })
-
-          // let camera = viewer.scene.camera
           viewer.trackedEntity = peopleModel
-          // let hpRange = {}
-          // let preUpdateHandler = viewer.scene.preUpdate.addEventListener(function () {
-          //   if (peopleModel) {
-          //     hpRange.heading = CesiumMath.toRadians(90)
-          //     hpRange.pitch = CesiumMath.toRadians(0)
-          //     hpRange.range = 1000
-          //     var center = sampledPosition.getValue(viewer.clock.currentTime)
-          //     if (center) viewer.camera.lookAt(center, hpRange)
-          //   }
-          // })
-          // viewer.scene.postUpdate.addEventListener(function (scene, time) {
-          //   var position = peopleModel.position.getValue(time)
-          //   if (!defined(position)) {
-          //     return
-          //   }
+        })
+      }
+    },
+    changeMeasure (type) {
+      this.measure.type = type
+    },
+    /**
+     * 新建测量
+     */
+    doMeasure (measureType) {
+      let that = this
+      MapContextHolder.getMap().then(viewer => {
+        let distanceMeasure = Measure.DistanceMeasure.start(viewer)
+        that.measure.measureTool = distanceMeasure
+      })
+    },
+    /**
+     * 取消测量
+     */
+    cancelMeasure () {
+      this.measure.measureTool && this.measure.measureTool.destroy()
+    },
+    /**
+     * 保存测量
+     */
+    saveMeasure () {
+      this.cancelMeasure()
+      let that = this
+      this.measure.measureTool && this.measure.measureTool.saveToLocal((data) => {
+        debugger
+        const cacheManager = CacheManagerFactory.getDefaultCacheManager()
+        const distanceMeasureCache = cacheManager.getCache(Measure.DistanceMeasure.MEASURE_GROUP_ID)
+        distanceMeasureCache.getAll().then(data => {
+          this.measure.distances = data || []
+        })
+        that.$msg('保存成功')
+      })
+    },
+    /**
+     * 删除测量
+     */
+    delMeasure (id) {
+      let that = this
+      const cacheManager = CacheManagerFactory.getDefaultCacheManager()
+      const distanceMeasureCache = cacheManager.getCache(Measure.DistanceMeasure.MEASURE_GROUP_ID)
+      distanceMeasureCache.evict(id).then(data => {
+        distanceMeasureCache.getAll().then(data => {
+          this.measure.distances = data || []
+        })
+        that.$msg('删除成功')
+      })
+    },
+    /**
+     * 查看测量
+     */
+    viewMeasure (distance) {
+      let that = this
+      let measureType = this.measure.type
+      if (measureType == 0) {
+        MapContextHolder.getMap().then(viewer => {
+          let {data: {positions}, id} = distance
+          if (distance.show) {
+            viewer.entityManager.removeByGroupId(id)
+            that.$set(distance, 'show', false)
+          } else {
+            let a = positions.reduce((result, curr, i) => {
+              let {x, y, z} = curr
+              let cartesian = Cartesian3.fromElements(x, y, z)
+              result.positions.push(cartesian)
+              if (result.pre != null) {
+                let label = new Entity({
+                  position: Cartesian3.midpoint(result.pre, cartesian, new Cartesian3()),
+                  label: {
+                    text: `${Cartesian3.distance(result.pre, cartesian).toFixed(2)}米`,
+                    font: '12px sans-serif',
+                    showBackground: true,
+                    backgroundColor: Color.BLACK,
+                    eyeOffset: Cartesian3.fromElements(0, 0, -5)
+                  }
+                })
+                result.labels.push(label)
+              }
+              result.pre = cartesian
+              return result
+            }, {positions: [], labels: [], pre: null})
+            let entity = new Entity({
+              id: id,
+              polyline: {
+                positions: a.positions,
+                width: 2
+              }
+            })
+            viewer.entityManager.add(entity, id)
+            a.labels.forEach(l => {
+              viewer.entityManager.add(l, id)
+            })
 
-          //   var transform
-          //   if (!defined(peopleModel.orientation)) {
-          //     transform = Transforms.eastNorthUpToFixedFrame(position)
-          //   } else {
-          //     var orientation = peopleModel.orientation.getValue(time)
-          //     if (!defined(orientation)) {
-          //       return
-          //     }
-
-          //     transform = Matrix4.fromRotationTranslation(Matrix3.fromQuaternion(orientation), position)
-          //   }
-
-          //   // Save camera state
-          //   var offset = Cartesian3.clone(camera.position)
-          //   var direction = Cartesian3.clone(camera.direction)
-          //   var up = Cartesian3.clone(camera.up)
-
-          //   // Set camera to be in model's reference frame.
-          //   camera.lookAtTransform(transform)
-
-          //   // Reset the camera state to the saved state so it appears fixed in the model's frame.
-          //   Cartesian3.clone(offset, camera.position)
-          //   Cartesian3.clone(direction, camera.direction)
-          //   Cartesian3.clone(up, camera.up)
-          //   Cartesian3.cross(direction, up, camera.right)
-          // })
-        // viewer.flyTo(peopleModel)
+            viewer.flyTo(entity)
+            that.$set(distance, 'show', true)
+          }
         })
       }
     }
@@ -359,5 +466,5 @@ export default {
 </script>
 
 <style>
-@import url(//at.alicdn.com/t/font_2022970_1k40003i4gxh.css);
+@import url(//at.alicdn.com/t/font_2022970_nx9bnvdv4as.css);
 </style>
