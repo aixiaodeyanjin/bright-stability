@@ -26,7 +26,6 @@ export default class MapContext {
         roll: Cesium.Math.toRadians(0)
       },
       easingFunction: time => {
-        debugger
         return time - 1
       }
     })
