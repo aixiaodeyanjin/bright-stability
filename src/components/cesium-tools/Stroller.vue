@@ -90,7 +90,6 @@ export default {
   },
 
   async mounted () {
-    console.log(defaultRoutes)
     let viewer = await MapContextHolder.getMap()
     this.viewer = viewer
     this.loadRoutes()
