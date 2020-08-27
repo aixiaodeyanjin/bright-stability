@@ -230,6 +230,7 @@ class Stroller extends MouseEvent {
 
   destroy () {
     super.destroy()
+    eventHelper.removeAll()
     this.viewer.entityManager.removeByGroupId(CACHE_NAME)
   }
 }
