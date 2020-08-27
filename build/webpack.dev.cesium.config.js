@@ -46,19 +46,5 @@ module.exports = {
     module: {
         // cesium 3 不加这个配置会报require引入警告
         unknownContextCritical: false,
-        rules: [{
-            // Strip cesium pragmas
-            test: /\.js$/,
-                enforce: 'pre',
-                include: path.resolve(__dirname, cesiumSource),
-                use: [{
-                    loader: 'strip-pragma-loader',
-                    options: {
-                        pragmas: {
-                            debug: false
-                        }
-                    }
-                }]
-        }]
     },
 };
