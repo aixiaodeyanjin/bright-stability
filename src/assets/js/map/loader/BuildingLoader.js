@@ -10,7 +10,7 @@ export default function loadBuildingInfo (viewer) {
     data.forEach(element => {
       let x = element.local.split(',')[0] * 1
       let y = element.local.split(',')[1] * 1
-      let h = 60
+      let h = 67
       viewer.entities.add({
         id: element.id,
         name: element.name,
@@ -47,7 +47,7 @@ export default function loadBuildingInfo (viewer) {
   INSTACNE.get(PARTY_ACTIVE_URL).then(resp => resp.data).then(element => {
     let x = element.local.split(',')[0] * 1
     let y = element.local.split(',')[1] * 1
-    let h = 48
+    let h = 55
     var position = Cesium.Cartesian3.fromDegrees(
       x,
       y,
@@ -79,7 +79,7 @@ export default function loadBuildingInfo (viewer) {
   INSTACNE.get(RESIDENT_ACTIVE_URL).then(resp => resp.data).then(element => {
     let x = element.local.split(',')[0] * 1 - 0.0001
     let y = element.local.split(',')[1] * 1 - 0.0001
-    let h = 48
+    let h = 55
     var position = Cesium.Cartesian3.fromDegrees(
       x,
       y,
