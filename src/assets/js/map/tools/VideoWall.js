@@ -15,7 +15,6 @@ class VideoWall {
       position: Cartesian3.fromDegrees(118.9060, 32.0051, 35),
       wall: {
         positions: Cartesian3.fromDegreesArrayHeights(positions),
-        // maximumHeights: heights,
         minimumHeights: heights,
         material: video
       }
