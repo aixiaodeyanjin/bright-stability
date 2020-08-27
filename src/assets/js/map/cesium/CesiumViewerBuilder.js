@@ -70,6 +70,10 @@ class CesiumViewerBuilder {
       return new CesiumViewerBuilder(container)
     }
 
+    selectionIndicator (selectionIndicator) {
+      this.userOptions.selectionIndicator = selectionIndicator
+      return this
+    }
     /**
      * 是否显示时间轴控件
      * 指示当前时间，并允许用户跳至特定时间。

@@ -22,14 +22,11 @@ class CesiumViewerFactory {
         .hideCredit()
         .infoBox(false)
         .shouldAnimate(true)
+        .selectionIndicator(false)
         .terrainProvider(Cesium.createWorldTerrain({
           // requestVertexNormals: true
           // requestWaterMask: true
         }))
-        // .terrainProvider(Cesium.createWorldTerrain({
-        //   // requestVertexNormals: true
-        //   // requestWaterMask: true
-        // }))
         .imageryProvider(
           new Cesium.UrlTemplateImageryProvider({
             url: 'http://{s}.google.cn/vt/lyrs=s&hl=zh-CN&x={x}&y={y}&z={z}&s=Gali',
@@ -65,11 +62,19 @@ class CesiumViewerFactory {
             maximumScreenSpaceError: 1,
             maximumMemoryUsage: 512,
             preferLeaves: true,
-            // modelMatrix: Cesium.Matrix4.fromTranslation(Cesium.Cartesian3.fromArray([8, -7, -16]))
-            modelMatrix: Cesium.Matrix4.fromTranslation(Cesium.Cartesian3.fromArray([-1, 8, -1]))
+            modelMatrix: Cesium.Matrix4.fromTranslation(Cesium.Cartesian3.fromArray([-5, 12, 3]))
           })
           viewer.scene.primitives.add(palaceTileset)
-          viewer.flyTo(palaceTileset)
+          let remove = viewer.scene.globe.tileLoadProgressEvent.addEventListener(length => {
+            if (length == 0) {
+              remove()
+              loadBuildingInfo(viewer)
+              viewer.flyTo(palaceTileset, {
+                duration: 4,
+                offset: new Cesium.HeadingPitchRange(0, Cesium.Math.toRadians(-90), 1500)
+              })
+            }
+          })
         })
         .addBuildAfter(viewer => {
           var options = {}
@@ -92,9 +97,10 @@ class CesiumViewerFactory {
           // viewer.scene.globe.enableLighting = true
           viewer.scene.screenSpaceCameraController.minimumZoomDistance = 1
           viewer.scene.screenSpaceCameraController.maximumZoomDistance = 30000000
+          viewer.scene.globe.depthTestAgainstTerrain = true
           // viewer.resolutionScale = viewer.useBrowserRecommendedResolution
         })
-        .addBuildAfter(loadBuildingInfo)
+        // .addBuildAfter(loadBuildingInfo)
         .addBuildAfter(viewer => {
           viewer.entityManager = new EntityManager(viewer)
         })
