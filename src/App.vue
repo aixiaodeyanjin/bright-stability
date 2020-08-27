@@ -28,27 +28,7 @@
       </div>
       <div class="block week">
         <div class="weather">
-          <div class="iconfont iconqing" v-if="nowWeatherInfo.realtime.wid == '00'"></div>
-          <div class="iconfont iconduoyun" v-else-if="nowWeatherInfo.realtime.wid == '01'"></div>
-          <div class="iconfont iconyintian" v-else-if="nowWeatherInfo.realtime.wid == '02'"></div>
-          <div class="iconfont iconleidian" v-else-if="nowWeatherInfo.realtime.wid == '04'"></div>
-          <div class="iconfont icontianqi-"
-              v-else-if="nowWeatherInfo.realtime.wid == '05' || nowWeatherInfo.realtime.wid == '06'"></div>
-          <div class="iconfont iconxiaoyu" v-else-if="nowWeatherInfo.realtime.wid == '07'"></div>
-          <div class="iconfont icondayu"
-              v-else-if="parseInt(nowWeatherInfo.realtime.wid) >= 8 && parseInt(nowWeatherInfo.realtime.wid) <= 12">
-          </div>
-          <div class="iconfont icontianqi-1"
-              v-else-if="parseInt(nowWeatherInfo.realtime.wid) >= 13 && parseInt(nowWeatherInfo.realtime.wid) <= 17">
-          </div>
-          <div class="iconfont icontianqi-1" v-else-if="nowWeatherInfo.realtime.wid == '19'"></div>
-          <div class="iconfont icondayu"
-              v-else-if="parseInt(nowWeatherInfo.realtime.wid) >= 21 && parseInt(nowWeatherInfo.realtime.wid) <= 25">
-          </div>
-          <div class="iconfont icontianqi-1"
-              v-else-if="parseInt(nowWeatherInfo.realtime.wid) >= 26 && parseInt(nowWeatherInfo.realtime.wid) <= 28">
-          </div>
-          <div class="iconfont icontianqi-wumai" v-else></div>
+          <div class="iconfont iconqing" :class="weather"></div>
         </div>
         <div class="describe">
           <span v-text="week"></span>
@@ -59,7 +39,7 @@
       <div class="block menu">
         <div class="iconfont iconcaidan"></div>
         <div class="text" v-text="menuList[menuIndex].text"></div>
-        <div class="direction" :class="{'up': menuShow}" @click="changeMenuShow()">
+        <div class="direction" :class="{'up': menuShow}" @click="menuShow = !menuShow">
           <div class="point"></div>
           <div class="bar left-bar"></div>
           <div class="bar right-bar"></div>
@@ -96,33 +76,50 @@ export default {
         realtime: {}
       },
       menuShow: false,
-      menuList: [{
-        text: '首页',
-        url: 'http://bright.liaodukeji.com/home/index.html'
-      }, {
-        text: '市容',
-        url: 'http://bright.liaodukeji.com/#/1001'
-      }, {
-        text: '安全',
-        url: 'http://bright.liaodukeji.com/#/1002'
-      }, {
-        text: '稳定',
-        url: 'http://xlgc.liaodukeji.com/wending.html'
-      }, {
-        text: '党建',
-        url: 'http://bright.liaodukeji.com/home/partybuild.html'
-      }, {
-        text: '积分自治',
-        url: 'http://bright.liaodukeji.com/home/partyPoint.html'
-      }, {
-        text: '阵地建设',
-        url: 'http://bright.liaodukeji.com/#/1006'
-      }],
+      menuList: process.env.MENUS,
       menuIndex: 3,
       systemTime: new Date()
     }
   },
   computed: {
+    weather () {
+      let wid = parseInt(this.nowWeatherInfo.realtime.wid)
+      let icon = ''
+      if (wid >= 0 && wid < 8) {
+        switch (wid) {
+          case 0:
+            icon = 'iconqing'
+            break
+          case 1:
+            icon = 'iconduoyun'
+            break
+          case 2:
+            icon = 'iconyintian'
+            break
+          case 4:
+            icon = 'iconleidian'
+            break
+          case 5:
+          case 6:
+            icon = 'icontianqi-'
+            break
+          case 7:
+            icon = 'iconxiaoyu'
+            break
+          default:
+            break
+        }
+      } else if (wid >= 8 && wid <= 12) {
+        icon = 'icondayu'
+      } else if ((wid >= 13 && wid <= 17) || wid == 19 || (wid >= 26 && wid <= 28)) {
+        icon = 'icontianqi-1'
+      } else if (wid >= 21 && wid <= 25) {
+        icon = 'icondayu'
+      } else {
+        icon = 'icontianqi-wumai'
+      }
+      return icon
+    },
     moment () {
       return moment(this.systemTime)
     },
@@ -144,8 +141,7 @@ export default {
     }
   },
   created () {
-    let _this = this
-    _this.getWeatherInfo()
+    this.getWeatherInfo()
   },
   mounted () {
     this.clockRequestId = this.runClock()
@@ -154,10 +150,6 @@ export default {
     runClock () {
       this.systemTime = new Date()
       return requestAnimationFrame(this.runClock)
-    },
-    changeMenuShow () { // 打开菜单
-      let _this = this
-      _this.menuShow = !_this.menuShow
     },
     chooseMenu (item) { // 选择菜单
       if (item.url) {
@@ -173,7 +165,7 @@ export default {
       if (nowCache && this.date == nowCache.setDate) {
         _this.nowWeatherInfo = nowCache.data
       } else {
-        _this.$getApi(_this.$appConfig.apiList.getWeather).then(result => {
+        _this.$getApi(process.env.APIS.getWeather).then(result => {
           if (result.code == 1) {
             _this.nowWeatherInfo = result.data
 
@@ -193,7 +185,7 @@ export default {
 }
 </script>
 
-<style lazyload>
+<style>
 :root{
   font-size: calc(100vw / 19.2);
 }
