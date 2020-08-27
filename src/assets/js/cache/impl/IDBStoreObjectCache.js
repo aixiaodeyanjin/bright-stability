@@ -27,7 +27,7 @@ export default class IDBStorageObjectCache extends Cache {
   getAll () {
     let {name, db} = this
     return db.then(db => {
-      let request = db.transaction(this.name).objectStore(this.name).getAll()
+      let request = db.transaction(name).objectStore(name).getAll()
       return new Promise((resolve, reject) => {
         request.onsuccess = e => resolve(e.target.result)
         request.onerror = reject
@@ -36,7 +36,6 @@ export default class IDBStorageObjectCache extends Cache {
   }
 
   async put (key, object) {
-    let {name} = this
     let isUpdate = await this.contains(key)
     if (isUpdate) {
       return this.update(key, object)
@@ -48,7 +47,8 @@ export default class IDBStorageObjectCache extends Cache {
   add (key, object) {
     let {name, db} = this
     return db.then(db => {
-      let request = db.transaction(name, 'readwrite').objectStore(name).add({id: key, data: object})
+      let request = db.transaction(name, 'readwrite').objectStore(name)
+        .add(object, key)
       return new Promise((resolve, reject) => {
         request.onsuccess = e => resolve(e)
         request.onerror = e => reject(e)
@@ -61,7 +61,7 @@ export default class IDBStorageObjectCache extends Cache {
     return db.then(db => {
       let request = db.transaction(name, 'readwrite')
         .objectStore(name)
-        .put({ id: key, data: object })
+        .put(object, key)
       return new Promise((resolve, reject) => {
         request.onsuccess = e => resolve(e)
         request.onerror = e => reject(e)

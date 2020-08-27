@@ -47,7 +47,7 @@ export default class IDBCacheManager extends CacheManager {
         return new Promise((resolve) => {
           idbRequest.onupgradeneeded = e => {
             let db = e.target.result
-            db.createObjectStore(name, { keyPath: 'id' })
+            db.createObjectStore(name)
             var transaction = e.target.transaction
 
             transaction.oncomplete =
