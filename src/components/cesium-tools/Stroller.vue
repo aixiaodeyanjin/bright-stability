@@ -25,10 +25,17 @@
     </div>
     <div class="path-box" v-show="!isDoPlanRoute">
         <span class="title">路线列表</span>
+        <div class="default-routes">
+          <div class="route" v-for="(route, i) in defaultRoutes" :key="route.id">
+            <span class="seq">#{{i + 1}}</span>
+            <span class="title">{{route.title || formatTime(route.createTime)}}</span>
+            <span class="btn right" @click="stroll(route)"><i class="iconfont icon-yulan" :class="{ 'active' : strollerId == route.id}"></i></span>
+          </div>
+        </div>
         <div class="path-items">
             <div class="path" v-for="(route, i) in orderedRouteds" :key="route.id">
                 <span class="seq">#{{i + 1}}</span>
-                <span class="title">{{formatTime(route.title)}}</span>
+                <span class="title">{{route.title || formatTime(route.createTime)}}</span>
                 <span class="btn" @click="stroll(route)"><i class="iconfont icon-yulan" :class="{ 'active' : strollerId == route.id}"></i></span>
                 <span class="btn" @click="deleteRoute(route)"><i class="iconfont icon-del"></i></span>
             </div>
@@ -42,6 +49,7 @@ import moment from 'moment'
 import { MapContextHolder } from '@/assets/js/map/index'
 import { Stroller } from '@/assets/js/map/tools'
 import {Cartographic, Cartesian3, Math as CesiumMath} from 'cesium'
+import defaultRoutes from '@/assets/json/defaultRoutes'
 export default {
 
   data () {
@@ -62,6 +70,11 @@ export default {
       routes: [],
 
       /**
+       * 默认路线
+       */
+      defaultRoutes,
+
+      /**
        * 查看的路径
        */
       strollerId: null
@@ -77,6 +90,7 @@ export default {
   },
 
   async mounted () {
+    console.log(defaultRoutes)
     let viewer = await MapContextHolder.getMap()
     this.viewer = viewer
     this.loadRoutes()

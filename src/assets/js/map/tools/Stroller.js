@@ -144,8 +144,8 @@ class Stroller extends MouseEvent {
    */
   saveRoute () {
     let id = createGuid()
-    let title = new Date().toISOString()
-    let data = {id, title, positions: this.positions}
+    let createTime = new Date().toISOString()
+    let data = {id, title: '', positions: this.positions, createTime}
     return CACHE.put(id, data).then(() => {
       return data
     })
