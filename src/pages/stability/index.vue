@@ -1,6 +1,7 @@
 <template>
 <div class="content">
-  <div id="cesiumContainer"><CesiumToolBox></CesiumToolBox></div>
+  <div id="cesiumContainer"></div>
+  <CesiumToolBox></CesiumToolBox>
   <div class="main wending-main">
     <div class="menus_search" v-show="showSearchDom">
       <div class="tabbar">
@@ -77,7 +78,7 @@
               :type="inputItem.type"
               :placeholder="inputItem.placeholder"
               :value="inputItem.value"
-              @input="searchInput(event, inputIndex)"
+              @input="searchInput($event, inputIndex)"
             />
             <div class="bottom-direction"></div>
             <div class="bottom-left-bar"></div>
@@ -447,8 +448,8 @@
             class="input"
             placeholder="请输入密码"
             :value="inputPasswordValue"
-            @input="inputPassword(event)"
-            @keyup.enter="judgePassword(event)"
+            @input="inputPassword($event)"
+            @keyup.enter="judgePassword($event)"
           />
         </div>
         <div class="ctrl_btn">

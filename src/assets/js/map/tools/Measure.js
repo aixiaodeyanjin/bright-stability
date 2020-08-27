@@ -165,6 +165,73 @@ class DistanceMeasure extends Measure {
       return new DistanceMeasure(scene)
     }
 }
+class AreaMeasure extends Measure {
+  static MEASURE_GROUP_ID = 'area_measure'
+  constructor (viewer) {
+    super(viewer.scene)
+    this.viewer = viewer
+    let measureId = createGuid()
+    let that = this
+    this.mousePosition = null
+    this.entity = new Entity({
+      id: measureId,
+      polygon: {
+        hierarchy: new CallbackProperty(() => {
+          return {
+            positions: that.positions
+          }
+        }, false)
+      },
+      polyline: {
+        positions: new CallbackProperty(() => {
+          return that.mousePosition ? that.positions.push(that.mousePosition) : that.positions
+        }, false),
+        material: Color.YELLOW,
+        clampToGround: true,
+        width: 2
+      }
+    })
+    viewer.entityManager.add(this.entity, AreaMeasure.MEASURE_GROUP_ID)
+  }
+
+  onLeftClick (event) {
+    let {position} = event
+    let cartesian = super.pickClampToHeight(position)
+    super.addPosition(cartesian)
+  }
+
+  onMouseMove (event) {
+    // if (this.positions.length > 0) {
+    //   let {endPosition} = event
+    //   if (endPosition) {
+    //     let cartesian = super.pickClampToHeight(endPosition)
+    //     if (cartesian) {
+    //       this.mousePosition = cartesian
+    //     }
+    //   }
+    // }
+  }
+
+  computeArea (ps) {
+    var s = 0
+    for (var i = 0; i < ps.length; i++) {
+      var p1 = ps[i]
+      var p2
+      if (i < ps.length - 1) { p2 = ps[i + 1] } else { p2 = ps[0] }
+      s += p1.x * p2.y - p2.x * p1.y
+    }
+    return Math.abs(s / 2)
+  }
+
+  destroy () {
+    super.destroy()
+    this.viewer.entityManager.removeByGroupId(AreaMeasure.MEASURE_GROUP_ID)
+  }
+
+  static start (viewer) {
+    return new AreaMeasure(viewer)
+  }
+}
 export default {
-  DistanceMeasure
+  DistanceMeasure, AreaMeasure
 }

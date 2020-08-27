@@ -80,9 +80,6 @@
     margin-inline-end: 0px;
     font-weight: bold;
 }
-.tab-context > div {
-    display: none;
-}
 .tab-context > div.active {
     display: block;
 }
@@ -251,7 +248,7 @@ i.active {
     height: 367px;
     overflow: auto;
 }
-.table {
+.cesium-tool .table {
     display: table;
     border-top: 1px solid white;
     border-left: 1px solid white;
@@ -263,24 +260,24 @@ i.active {
     font-weight: normal;
     font-size: 14px;
 }
-.table > .t-header {
+.cesium-tool .table > .t-header {
     display: table-header-group;
 }
-.table > .t-body {
+.cesium-tool .table > .t-body {
     display: table-row-group;
     overflow: hidden;
     height: 100px;
 }
-.table .t-row {
+.cesium-tool .table .t-row {
     display: table-row;
 }
-.table .t-row .t-cell {
+.cesium-tool .table .t-row .t-cell {
     display: table-cell;
 }
-.table .t-row:not(:last-child) {
+.cesium-tool .table .t-row:not(:last-child) {
     border-bottom: 1px solid white;
 }
-.table .t-row .t-cell {
+.cesium-tool .table .t-row .t-cell {
     border-right: 1px solid white;
     border-bottom: 1px solid white;
     padding: 5px 0px;

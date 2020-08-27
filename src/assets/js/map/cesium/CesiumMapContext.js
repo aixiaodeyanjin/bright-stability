@@ -12,31 +12,6 @@ export default class MapContext {
     }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
   }
 
-  autoNavigate () {
-    debugger
-    let [lng, lat] = [118.9060, 32.05536446]
-    var property = new Cesium.SampledPositionProperty()
-    var position1 = Cesium.Cartesian3.fromDegrees(118,
-      32)
-    const position = new Cesium.CallbackProperty((time, result) => {
-      // lng += 0.000001
-      lat += 0.00000004
-      return Cesium.Cartesian3.fromDegrees(lng,
-        lat, 26)
-    }, false)
-    var url = '/static/models/Cesium_Man.glb'
-    var entity = (this.viewer.trackedEntity = this.viewer.entities.add({
-      name: url,
-      position: position,
-      model: {
-        uri: url,
-        scale: 1
-      },
-      viewFrom: new Cesium.Cartesian3(0, 0, 100)
-    }))
-    // this.viewer.flyTo(entity)
-  }
-
   getMap () {
     return this.viewer
   }
