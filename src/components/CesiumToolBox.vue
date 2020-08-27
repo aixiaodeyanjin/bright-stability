@@ -26,7 +26,7 @@
 <script>
 import '@/assets/css/cesium-tool.css'
 import { Measure } from '@/assets/js/map/tools'
-import { Math as CesiumMath, Cartesian3, Cartographic, defined, Transforms, Matrix4, Matrix3, createGuid, HeadingPitchRange, Entity, Color } from 'cesium'
+import { Cartesian3, Entity, Color } from 'cesium'
 import { MapContextHolder } from '@/assets/js/map/index'
 import CacheManagerFactory from '@/assets/js/cache/CacheManagerFactory'
 const cacheManager = CacheManagerFactory.getDefaultCacheManager()
