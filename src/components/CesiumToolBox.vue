@@ -31,8 +31,9 @@ import { MapContextHolder } from '@/assets/js/map/index'
 import CacheManagerFactory from '@/assets/js/cache/CacheManagerFactory'
 const cacheManager = CacheManagerFactory.getDefaultCacheManager()
 const Stroller = () => import('./cesium-tools/Stroller')
+const VideoWall = () => import('./cesium-tools/VideoWall')
 export default {
-  components: { Stroller },
+  components: { Stroller, VideoWall },
   data () {
     return {
 
@@ -98,7 +99,6 @@ export default {
       this.cancelMeasure()
       let that = this
       this.measure.measureTool && this.measure.measureTool.saveToLocal((data) => {
-        debugger
         const distanceMeasureCache = cacheManager.getCache(Measure.DistanceMeasure.MEASURE_GROUP_ID)
         distanceMeasureCache.getAll().then(data => {
           this.measure.distances = data || []

@@ -22,7 +22,12 @@ module.exports = {
       '/img/u0.jpg': {
         target: 'http://xlgc.liaodukeji.com/',
         changeOrigin: true,
-      }
+      },
+      '/stability': {
+        target: 'http://bright.liaodukeji.com/',
+        changeOrigin: true,
+        logLevel: 'debug',
+      },
     },
 
     // Various Dev Server settings

@@ -1,36 +1,26 @@
-// var sphere = viewer.entities.add({
-//     position: Cesium.Cartesian3.fromDegrees( 121.643521, 31.247417, 0),
-//     wall: {
-//       positions: Cesium.Cartesian3.fromDegreesArrayHeights([
-//          121.643521, 31.247417, 3000.0,
-//         121.643521, 31.235685, 3000.0,
-
-//       ]),
-//       maximumHeights: [3000, 3000],
-//      // minimumHeights: [2000.0, 2000.0],
-//       material: videoElement
-//     }
-//   })
+import {Entity, Cartesian3} from 'cesium'
 /**
  * 视频墙实现
  */
-import {Entity, Cartesian3} from 'cesium'
 class VideoWall {
   static initDemo (video) {
     return VideoWall.createVideoWall(video, [
-      118.94578470, 32.055222128, 30,
-      118.90590489, 32.055222128, 30
-    ], [3000, 3000])
+      118.90528343487152, 32.0564011141022, 43,
+      118.90528829166061, 32.05647508768486, 43
+    ], [35, 35])
   }
 
   static createVideoWall (video, positions, heights) {
     return new Entity({
-      position: Cartesian3.fromDegrees(118.9060, 32.0051, 0),
+      position: Cartesian3.fromDegrees(118.9060, 32.0051, 35),
       wall: {
         positions: Cartesian3.fromDegreesArrayHeights(positions),
-        maximumHeights: heights,
+        // maximumHeights: heights,
+        minimumHeights: heights,
         material: video
       }
     })
   }
 }
+
+export default VideoWall
