@@ -6,6 +6,9 @@ const PARTY_ACTIVE_URL = '/xlgc/data/mockerData/wending.partyActive.json'
 const RESIDENT_ACTIVE_URL = '/xlgc/data/mockerData/wending.residentActive.json'
 const [MODEL_URL_BUILDING, MODEL_URL_COMMUNITY_CENTER, MODEL_URL_PARTY_CENTER] = ['/static/models/building.glb', '/static/models/community_center.glb', '/static/models/party_center.glb']
 export default function loadBuildingInfo (viewer) {
+  /**
+   * 楼栋信息标注
+   */
   INSTACNE.get(URL).then(resp => resp.data).then(({code, data}) => {
     data.forEach(element => {
       let x = element.local.split(',')[0] * 1
@@ -44,9 +47,12 @@ export default function loadBuildingInfo (viewer) {
       })
     })
   })
+  /**
+   * 党群中心
+   */
   INSTACNE.get(PARTY_ACTIVE_URL).then(resp => resp.data).then(element => {
-    let x = element.local.split(',')[0] * 1
-    let y = element.local.split(',')[1] * 1
+    let x = element.local.split(',')[0] * 1 - 0.0001
+    let y = element.local.split(',')[1] * 1 - 0.000225
     let h = 55
     var position = Cesium.Cartesian3.fromDegrees(
       x,
@@ -76,9 +82,12 @@ export default function loadBuildingInfo (viewer) {
     })
   })
 
+  /**
+   * 社区中心
+   */
   INSTACNE.get(RESIDENT_ACTIVE_URL).then(resp => resp.data).then(element => {
     let x = element.local.split(',')[0] * 1 - 0.0001
-    let y = element.local.split(',')[1] * 1 - 0.0001
+    let y = element.local.split(',')[1] * 1 + 0.0001
     let h = 55
     var position = Cesium.Cartesian3.fromDegrees(
       x,
