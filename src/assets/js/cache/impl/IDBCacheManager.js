@@ -47,29 +47,4 @@ export default class IDBCacheManager extends CacheManager {
     }
     return cache
   }
-
-  connectDB (name) {
-    let dbName = this.dbName
-    return this.dbPromise.then(db => {
-      let dbVersion = db.version
-      if (!db.objectStoreNames.contains(name)) {
-        db.close()
-        let idbRequest = window.indexedDB.open(dbName, dbVersion + 1)
-        return new Promise((resolve) => {
-          idbRequest.onupgradeneeded = e => {
-            let db = e.target.result
-            db.createObjectStore(name)
-            var transaction = e.target.transaction
-
-            transaction.oncomplete =
-            function (event) {
-              resolve(db)
-            }
-          }
-        })
-      } else {
-        return Promise.resolve(db)
-      }
-    })
-  }
 }
