@@ -2,7 +2,7 @@
 <div class="measure-box">
 
   <div class="measure-type-tab">
-    <a href="javascript:void(0)" class="btn" :class="{active : measureType == 0}" @click="measureType = 0"><i class="iconfont icon-chizi"></i> 距离</a>
+    <a href="javascript:void(0)" class="btn" :class="{active : measureType == 0}" @click="measureType = 0"><i class="iconfont icon-ceju"></i> 距离</a>
     <a href="javascript:void(0)" class="btn" :class="{active : measureType == 1}" @click="measureType = 1"><i class="iconfont icon-mianji"></i> 面积</a>
   </div>
 
