@@ -10,12 +10,12 @@ export default class IDBStorageObjectCache extends Cache {
   }
 
   getNativeCache () {
-    return this.db
+    return this.db()
   }
 
   get (key) {
     let {name} = this
-    return this.db.then(db => {
+    return this.getNativeCache().then(db => {
       let request = db.transaction(name).objectStore(name).get(key)
       return new Promise((resolve, reject) => {
         request.onsuccess = e => resolve(e.target.result)
@@ -25,8 +25,8 @@ export default class IDBStorageObjectCache extends Cache {
   }
 
   getAll () {
-    let {name, db} = this
-    return db.then(db => {
+    let {name} = this
+    return this.getNativeCache().then(db => {
       let request = db.transaction(name).objectStore(name).getAll()
       return new Promise((resolve, reject) => {
         request.onsuccess = e => resolve(e.target.result)
@@ -45,8 +45,8 @@ export default class IDBStorageObjectCache extends Cache {
   }
 
   add (key, object) {
-    let {name, db} = this
-    return db.then(db => {
+    let {name} = this
+    return this.getNativeCache().then(db => {
       let request = db.transaction(name, 'readwrite').objectStore(name)
         .add(object, key)
       return new Promise((resolve, reject) => {
@@ -57,8 +57,8 @@ export default class IDBStorageObjectCache extends Cache {
   }
 
   update (key, object) {
-    let {name, db} = this
-    return db.then(db => {
+    let {name} = this
+    return this.getNativeCache().then(db => {
       let request = db.transaction(name, 'readwrite')
         .objectStore(name)
         .put(object, key)
@@ -70,8 +70,8 @@ export default class IDBStorageObjectCache extends Cache {
   }
 
   evict (key) {
-    let {name, db} = this
-    return db.then(db => {
+    let {name} = this
+    return this.getNativeCache().then(db => {
       let request = db.transaction(name, 'readwrite')
         .objectStore(name)
         .delete(key)
