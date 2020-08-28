@@ -2,3 +2,4 @@
 export {default as Measure} from './Measure'
 export {default as Stroller} from './Stroller'
 export {default as VideoWall} from './VideoWall'
+export {default as DistanceMeasure} from './DistanceMeasure'

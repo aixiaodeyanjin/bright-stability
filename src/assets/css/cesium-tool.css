@@ -229,7 +229,7 @@ i.active {
 .measure-type-tab {
     display: flex;
     justify-content: center;
-    margin: 5px auto;
+    margin: 10px auto;
 }
 
 .measure-type-tab > a {
