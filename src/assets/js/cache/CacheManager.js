@@ -1,7 +1,7 @@
-import Cache from './Cache'
+import Cache from './Cache';
 
 class CacheManager {
-  getCache (name) {}
+  getCache(name) {}
 }
 
-export default CacheManager
+export default CacheManager;

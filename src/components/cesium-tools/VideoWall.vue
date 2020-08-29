@@ -2,24 +2,20 @@
   <div class="video-wall">
     <video ref="video" width="385" :src="src" loop="loop" muted="true"></video>
     <div class="btn-group-simple center">
-      <a href="javascript:void(0);" class="btn-simple" @click="showVideoWall"
-        >显示视频墙</a
-      >
-      <a href="javascript:void(0);" class="btn-simple" @click="closeVideoWall"
-        >关闭视频墙</a
-      >
+      <a href="javascript:void(0);" class="btn-simple" @click="showVideoWall">显示视频墙</a>
+      <a href="javascript:void(0);" class="btn-simple" @click="closeVideoWall">关闭视频墙</a>
     </div>
   </div>
 </template>
 
 <script>
-import { MapContextHolder } from "@/assets/js/map/index";
-import { VideoWall } from "@/assets/js/map/tools";
-import { HeadingPitchRange, Math as CesiumMath } from "cesium";
+import { MapContextHolder } from '@/assets/js/map/index';
+import { VideoWall } from '@/assets/js/map/tools';
+import { HeadingPitchRange, Math as CesiumMath } from 'cesium';
 export default {
   data() {
     return {
-      src: "/stability/static/videos/demo.mp4",
+      src: '/stability/static/videos/demo.mp4',
     };
   },
 

@@ -1,16 +1,16 @@
-import { destroyObject, PinBuilder, Entity, CallbackProperty, defined, Cartesian3, VerticalOrigin, Color, EventHelper, Event, createGuid, HeadingPitchRange, Math as CesiumMath } from 'cesium'
-import MouseEvent from './MouseEvent'
-import CacheManagerFactory from '../../cache/CacheManagerFactory'
+import { destroyObject, PinBuilder, Entity, CallbackProperty, defined, Cartesian3, VerticalOrigin, Color, EventHelper, Event, createGuid, HeadingPitchRange, Math as CesiumMath } from 'cesium';
+import MouseEvent from './MouseEvent';
+import CacheManagerFactory from '../../cache/CacheManagerFactory';
 /**
  * cesium距离测量
  */
-const PIN_BUILDER = new PinBuilder()
-const CACHE_NAME = 'distance-measure'
-const CACHE = CacheManagerFactory.getDefaultCacheManager().getCache(CACHE_NAME)
-const eventHelper = new EventHelper()
-const changeEvent = new Event()
+const PIN_BUILDER = new PinBuilder();
+const CACHE_NAME = 'distance-measure';
+const CACHE = CacheManagerFactory.getDefaultCacheManager().getCache(CACHE_NAME);
+const eventHelper = new EventHelper();
+const changeEvent = new Event();
 
-function buildMarker (cartesian, seq) {
+function buildMarker(cartesian, seq) {
   return new Entity({
     position: cartesian,
     billboard: {
@@ -19,11 +19,11 @@ function buildMarker (cartesian, seq) {
       height: 35,
       verticalOrigin: VerticalOrigin.BOTTOM,
       eyeOffset: Cartesian3.fromElements(0, 0, -5),
-      disableDepthTestDistance: 0
-    }
-  })
+      disableDepthTestDistance: 0,
+    },
+  });
 }
-function buildLabel (cartesian, distance) {
+function buildLabel(cartesian, distance) {
   return new Entity({
     position: cartesian,
     label: {
@@ -31,61 +31,61 @@ function buildLabel (cartesian, distance) {
       font: '12px sans-serif',
       showBackground: true,
       backgroundColor: Color.BLACK,
-      eyeOffset: Cartesian3.fromElements(0, 0, -5)
-    }
-  })
+      eyeOffset: Cartesian3.fromElements(0, 0, -5),
+    },
+  });
 }
 class DistanceMeasure extends MouseEvent {
-  constructor (viewer) {
-    super(viewer.scene)
-    this.viewer = viewer
-    this.positions = []
-    this.labels = []
-    this.totalDistance = 0
-    this.init()
+  constructor(viewer) {
+    super(viewer.scene);
+    this.viewer = viewer;
+    this.positions = [];
+    this.labels = [];
+    this.totalDistance = 0;
+    this.init();
   }
 
-  init () {
-    this.createPolyline()
+  init() {
+    this.createPolyline();
   }
 
-  createPolyline () {
-    let that = this
+  createPolyline() {
+    let that = this;
     let polyline = new Entity({
       polyline: {
         positions: new CallbackProperty(() => {
-          return that.positions
+          return that.positions;
         }, false),
         width: 2,
-        clampToGround: true
-      }
-    })
-    this.viewer.entityManager.add(polyline, CACHE_NAME)
+        clampToGround: true,
+      },
+    });
+    this.viewer.entityManager.add(polyline, CACHE_NAME);
   }
 
-  addChangeEvent (listener, scope) {
-    eventHelper.add(changeEvent, listener, scope)
+  addChangeEvent(listener, scope) {
+    eventHelper.add(changeEvent, listener, scope);
   }
 
   /**
    * 左键点击事件
    * @param {*} event
    */
-  onLeftClick (event) {
-    let {position} = event
-    let cartesian = this.scene.pickPosition(position)
+  onLeftClick(event) {
+    let { position } = event;
+    let cartesian = this.scene.pickPosition(position);
     if (defined(cartesian)) {
-      this.positions.push(cartesian)
-      let length = this.positions.length
-      this.pinPosition(cartesian, length) // 添加marker
+      this.positions.push(cartesian);
+      let length = this.positions.length;
+      this.pinPosition(cartesian, length); // 添加marker
       if (length > 1) {
-        let prePosition = this.positions[length - 2]
-        let midpoint = Cartesian3.midpoint(prePosition, cartesian, new Cartesian3())
-        let distance = Cartesian3.distance(prePosition, cartesian)
-        this.totalDistance += distance
-        this.labels.push({position: midpoint, distance})
-        this.showDistanceTextLabel(midpoint, distance)
-        changeEvent.raiseEvent(true)
+        let prePosition = this.positions[length - 2];
+        let midpoint = Cartesian3.midpoint(prePosition, cartesian, new Cartesian3());
+        let distance = Cartesian3.distance(prePosition, cartesian);
+        this.totalDistance += distance;
+        this.labels.push({ position: midpoint, distance });
+        this.showDistanceTextLabel(midpoint, distance);
+        changeEvent.raiseEvent(true);
       }
     }
   }
@@ -93,77 +93,80 @@ class DistanceMeasure extends MouseEvent {
   /**
    * 添加marker
    */
-  pinPosition (position, seq) {
-    this.viewer.entityManager.add(buildMarker(position, seq), CACHE_NAME)
+  pinPosition(position, seq) {
+    this.viewer.entityManager.add(buildMarker(position, seq), CACHE_NAME);
   }
 
   /**
    * 显示距离
    */
-  showDistanceTextLabel (cartesian, distance) {
-    this.viewer.entityManager.add(buildLabel(cartesian, distance), CACHE_NAME)
+  showDistanceTextLabel(cartesian, distance) {
+    this.viewer.entityManager.add(buildLabel(cartesian, distance), CACHE_NAME);
   }
 
   /**
    * 鼠标移动世界
    * @param {*} event
    */
-  onMouseMove (event) {
-
-  }
+  onMouseMove(event) {}
 
   /**
    * 右键点击事件
    * @param {*} event
    */
-  onRightClick (event) {
-
-  }
+  onRightClick(event) {}
 
   /**
    * 保存测量
    */
-  saveMeasure () {
-    let id = createGuid()
-    let createTime = new Date().toISOString()
-    let data = {id, title: '', positions: this.positions, createTime, totalDistance: this.totalDistance, labels: this.labels}
+  saveMeasure() {
+    let id = createGuid();
+    let createTime = new Date().toISOString();
+    let data = {
+      id,
+      title: '',
+      positions: this.positions,
+      createTime,
+      totalDistance: this.totalDistance,
+      labels: this.labels,
+    };
     return CACHE.put(id, data).then(() => {
-      return data
-    })
+      return data;
+    });
   }
 
-  destroy () {
-    super.destroy()
-    eventHelper.removeAll()
-    this.viewer.entityManager.removeByGroupId(CACHE_NAME)
-    destroyObject(this)
+  destroy() {
+    super.destroy();
+    eventHelper.removeAll();
+    this.viewer.entityManager.removeByGroupId(CACHE_NAME);
+    destroyObject(this);
   }
 
-  static start (viewer) {
-    return new DistanceMeasure(viewer)
+  static start(viewer) {
+    return new DistanceMeasure(viewer);
   }
 
   /**
    * 删除测量历史
    * @param {*} id
    */
-  static deleteMeasure (id) {
-    return CACHE.evict(id)
+  static deleteMeasure(id) {
+    return CACHE.evict(id);
   }
 
   /**
    * 测量历史
    */
-  static getMeasureHistory () {
-    return CACHE.getAll()
+  static getMeasureHistory() {
+    return CACHE.getAll();
   }
 
   /**
    * 地图上移除测量历史
    * @param {*} id
    */
-  static removeDistanceMeasure (viewer, id) {
-    viewer.entityManager.removeByGroupId(id)
+  static removeDistanceMeasure(viewer, id) {
+    viewer.entityManager.removeByGroupId(id);
   }
 
   /**
@@ -171,9 +174,9 @@ class DistanceMeasure extends MouseEvent {
    * @param {*} viewer
    * @param {*} distance
    */
-  static viewDistanceMeasure (viewer, distance) {
-    let {positions, id, labels} = distance
-    labels.forEach(({distance, position}) => {
+  static viewDistanceMeasure(viewer, distance) {
+    let { positions, id, labels } = distance;
+    labels.forEach(({ distance, position }) => {
       let label = new Entity({
         position: position,
         label: {
@@ -181,11 +184,11 @@ class DistanceMeasure extends MouseEvent {
           font: '12px sans-serif',
           showBackground: true,
           backgroundColor: Color.BLACK,
-          eyeOffset: Cartesian3.fromElements(0, 0, -5)
-        }
-      })
-      viewer.entityManager.add(label, id)
-    })
+          eyeOffset: Cartesian3.fromElements(0, 0, -5),
+        },
+      });
+      viewer.entityManager.add(label, id);
+    });
 
     let polyline = new Entity({
       id: id,
@@ -193,25 +196,25 @@ class DistanceMeasure extends MouseEvent {
         positions: positions,
         width: 2,
         clampToGround: true,
-        material: Color.YELLOW
-      }
-    })
-    viewer.entityManager.add(polyline, id)
+        material: Color.YELLOW,
+      },
+    });
+    viewer.entityManager.add(polyline, id);
 
-    let points = positions.map(position => {
+    let points = positions.map((position) => {
       let point = new Entity({
         position: position,
         point: {
           pixelSize: 3,
-          outlineWidth: 2
-        }
-      })
-      return viewer.entityManager.add(point, id)
-    })
+          outlineWidth: 2,
+        },
+      });
+      return viewer.entityManager.add(point, id);
+    });
     viewer.flyTo(points, {
-      offset: new HeadingPitchRange(0, CesiumMath.toRadians(-90), 0)
-    })
+      offset: new HeadingPitchRange(0, CesiumMath.toRadians(-90), 0),
+    });
   }
 }
 
-export default DistanceMeasure
+export default DistanceMeasure;

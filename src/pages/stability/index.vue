@@ -6,45 +6,19 @@
       <div class="menus_search" v-show="showSearchDom">
         <div class="tabbar">
           <div class="switch">
-            <div
-              class="item"
-              :class="{ item_choose: searchChooseIndex == index }"
-              v-for="(item, index) in searchList"
-              @click="changeSearchTab(index)"
-              :key="index"
-            >
+            <div class="item" :class="{ item_choose: searchChooseIndex == index }" v-for="(item, index) in searchList" @click="changeSearchTab(index)" :key="index">
               <div class="value" v-text="item.title"></div>
               <div class="bar"></div>
             </div>
           </div>
         </div>
 
-        <div
-          class="search_room"
-          :class="{ first: index == 0, second: index == 1 }"
-          v-show="searchChooseIndex == index"
-          v-for="(item, index) in searchList"
-          :key="index"
-        >
+        <div class="search_room" :class="{ first: index == 0, second: index == 1 }" v-show="searchChooseIndex == index" v-for="(item, index) in searchList" :key="index">
           <template v-if="searchChooseIndex == 0">
-            <div
-              class="select"
-              :class="{ selected: item.focusIndex == selectIndex }"
-              v-for="(selectItem, selectIndex) in item.itemList"
-              @click.stop="openSelect(selectIndex)"
-              :key="selectIndex"
-            >
-              <div
-                class="value"
-                v-text="
-                  selectItem.title ? selectItem.title : selectItem.defaultTitle
-                "
-              ></div>
+            <div class="select" :class="{ selected: item.focusIndex == selectIndex }" v-for="(selectItem, selectIndex) in item.itemList" @click.stop="openSelect(selectIndex)" :key="selectIndex">
+              <div class="value" v-text="selectItem.title ? selectItem.title : selectItem.defaultTitle"></div>
 
-              <div
-                class="direction"
-                :class="{ up: item.focusIndex == selectIndex }"
-              >
+              <div class="direction" :class="{ up: item.focusIndex == selectIndex }">
                 <div class="point"></div>
                 <div class="bar left-bar"></div>
                 <div class="bar right-bar"></div>
@@ -54,13 +28,7 @@
               <div class="bottom-left-bar"></div>
 
               <div class="options" v-show="item.focusIndex == selectIndex">
-                <div
-                  class="item"
-                  :class="{ item_choose: idx == selectItem.chooseIndex }"
-                  v-for="(option, idx) in selectItem.list"
-                  @click.stop="chooseSelectOptions(selectIndex, idx)"
-                  :key="idx"
-                >
+                <div class="item" :class="{ item_choose: idx == selectItem.chooseIndex }" v-for="(option, idx) in selectItem.list" @click.stop="chooseSelectOptions(selectIndex, idx)" :key="idx">
                   <div class="text" v-text="option.name"></div>
                   <div class="point"></div>
                 </div>
@@ -68,27 +36,16 @@
             </div>
           </template>
           <template v-if="searchChooseIndex == 1">
-            <div
-              class="select input"
-              v-for="(inputItem, inputIndex) in item.itemList"
-              :key="inputIndex"
-            >
+            <div class="select input" v-for="(inputItem, inputIndex) in item.itemList" :key="inputIndex">
               <!-- <div class="input_title" v-text="inputItem.title"></div> -->
-              <input
-                :type="inputItem.type"
-                :placeholder="inputItem.placeholder"
-                :value="inputItem.value"
-                @input="searchInput($event, inputIndex)"
-              />
+              <input :type="inputItem.type" :placeholder="inputItem.placeholder" :value="inputItem.value" @input="searchInput($event, inputIndex)" />
               <div class="bottom-direction"></div>
               <div class="bottom-left-bar"></div>
             </div>
           </template>
         </div>
 
-        <div class="button" @click="searchInfo(searchChooseIndex == 0 ? 1 : 4)">
-          检索
-        </div>
+        <div class="button" @click="searchInfo(searchChooseIndex == 0 ? 1 : 4)">检索</div>
 
         <!-- <div class="close_btn" @click="changeSearchDomShow">
                     <div class="line"></div>
@@ -98,11 +55,7 @@
 
       <div class="icon_tip_room">
         <div class="item">
-          <img
-            class="image"
-            src="@/assets/img/stability/people/dangyuan @2x.png"
-            alt=""
-          />
+          <img class="image" src="@/assets/img/stability/people/dangyuan @2x.png" alt="" />
           <div class="info-item">
             <div class="num red">156</div>
             <div class="text">党员</div>
@@ -110,11 +63,7 @@
         </div>
 
         <div class="item">
-          <img
-            class="image"
-            src="@/assets/img/stability/people/changzhurenkou @2x.png"
-            alt=""
-          />
+          <img class="image" src="@/assets/img/stability/people/changzhurenkou @2x.png" alt="" />
           <div class="info-item">
             <div class="num blue">32</div>
             <div class="text">常住入口</div>
@@ -122,11 +71,7 @@
         </div>
 
         <div class="item">
-          <img
-            class="image"
-            src="@/assets/img/stability/people/zhongdianrenyuan@2x.png"
-            alt=""
-          />
+          <img class="image" src="@/assets/img/stability/people/zhongdianrenyuan@2x.png" alt="" />
           <div class="info-item">
             <div class="num yellow">156</div>
             <div class="text">重点人员</div>
@@ -134,11 +79,7 @@
         </div>
 
         <div class="item">
-          <img
-            class="image"
-            src="@/assets/img/stability/people/chuzuhu@2x.png"
-            alt=""
-          />
+          <img class="image" src="@/assets/img/stability/people/chuzuhu@2x.png" alt="" />
           <div class="info-item">
             <div class="num orange">2</div>
             <div class="text">出租户</div>
@@ -147,30 +88,16 @@
       </div>
 
       <div class="build_info" v-if="showTableDom">
-        <div
-          class="close_all_btn"
-          @click="closeAllInfoTable"
-          v-if="searchChooseIndex == 1"
-        >
+        <div class="close_all_btn" @click="closeAllInfoTable" v-if="searchChooseIndex == 1">
           <div class="line"></div>
           <div class="line"></div>
         </div>
         <div class="tabbar" v-if="searchChooseIndex != 1">
           <div class="switch">
-            <div
-              class="item"
-              :class="{ item_choose: nowTabIndex == index }"
-              v-for="(item, index) in tabList"
-              @click="changeInfoTable(index)"
-              :key="index"
-            >
+            <div class="item" :class="{ item_choose: nowTabIndex == index }" v-for="(item, index) in tabList" @click="changeInfoTable(index)" :key="index">
               <div class="item_title" v-text="item.title"></div>
               <div class="bar">
-                <div
-                  class="close"
-                  v-show="nowTabIndex == index"
-                  @click.stop="closeInfoTable(index)"
-                >
+                <div class="close" v-show="nowTabIndex == index" @click.stop="closeInfoTable(index)">
                   <div class="line"></div>
                   <div class="line"></div>
                 </div>
@@ -182,66 +109,39 @@
         <div class="table first" v-if="nowTabIndex == 0">
           <div class="all_info">
             <div class="left">
-              <div
-                class="text"
-                v-text="'楼栋长：' + buildInfo.buildMaster.name"
-              ></div>
-              <div
-                class="text"
-                v-text="'网络长：' + buildInfo.gridMaster.name"
-              ></div>
+              <div class="text" v-text="'楼栋长：' + buildInfo.buildMaster.name"></div>
+              <div class="text" v-text="'网络长：' + buildInfo.gridMaster.name"></div>
             </div>
             <div class="right">
               <div class="item">
                 <div class="iconfont icondanghui image red"></div>
-                <div
-                  class="num"
-                  v-text="buildInfo.summaryInfo.partyCot + '人'"
-                ></div>
+                <div class="num" v-text="buildInfo.summaryInfo.partyCot + '人'"></div>
               </div>
 
               <div class="item">
                 <div class="iconfont icondangyuan image blue"></div>
-                <div
-                  class="num"
-                  v-text="buildInfo.summaryInfo.speciCot + '人'"
-                ></div>
+                <div class="num" v-text="buildInfo.summaryInfo.speciCot + '人'"></div>
               </div>
 
               <div class="item">
                 <div class="iconfont iconwo image yellow"></div>
-                <div
-                  class="num"
-                  v-text="buildInfo.summaryInfo.resdtCot + '人'"
-                ></div>
+                <div class="num" v-text="buildInfo.summaryInfo.resdtCot + '人'"></div>
               </div>
 
               <div class="item">
                 <div class="iconfont iconzufang image orange"></div>
-                <div
-                  class="num"
-                  v-text="buildInfo.summaryInfo.tanetCot + '人'"
-                ></div>
+                <div class="num" v-text="buildInfo.summaryInfo.tanetCot + '人'"></div>
               </div>
             </div>
           </div>
 
           <div class="list" v-if="buildInfo.cellInfo.length > 0">
-            <div
-              class="item"
-              :class="{ choose_item: buildChooseIndex === index }"
-              v-for="(item, index) in buildInfo.cellInfo"
-              @click="changeBuild(index)"
-              :key="index"
-            >
+            <div class="item" :class="{ choose_item: buildChooseIndex === index }" v-for="(item, index) in buildInfo.cellInfo" @click="changeBuild(index)" :key="index">
               <div class="title_room">
                 <div class="title_text" v-text="item.cellName"></div>
                 <div class="item_info">
                   <div class="text" v-text="'户数: ' + item.totalHouse"></div>
-                  <div
-                    class="text"
-                    v-text="'人口总数: ' + item.totalPopulation"
-                  ></div>
+                  <div class="text" v-text="'人口总数: ' + item.totalPopulation"></div>
                 </div>
               </div>
 
@@ -281,43 +181,26 @@
             <!-- <div class="item"
                             :class="{'orange': item.speciCot > 0, 'yellow': item.tanetCot > 0, 'red': item.partyCot > 0}"
                             v-for="(item, index) in unitList" @click="changeUnit(index)"> -->
-            <div
-              class="item"
-              v-for="(item, index) in unitList"
-              @click="changeUnit(index)"
-              :key="index"
-            >
+            <div class="item" v-for="(item, index) in unitList" @click="changeUnit(index)" :key="index">
               <div class="unit" v-text="item.houseName"></div>
               <div class="icon_room">
                 <div class="icon-item">
-                  <div
-                    class="iconfont icondanghui red"
-                    v-if="item.partyCot > 0"
-                  ></div>
+                  <div class="iconfont icondanghui red" v-if="item.partyCot > 0"></div>
                   <div class="nodata-line red" v-else>-</div>
                 </div>
 
                 <div class="icon-item">
-                  <div
-                    class="iconfont iconzufang blue"
-                    v-if="item.tanetCot > 0"
-                  ></div>
+                  <div class="iconfont iconzufang blue" v-if="item.tanetCot > 0"></div>
                   <div class="nodata-line blue" v-else>-</div>
                 </div>
 
                 <div class="icon-item">
-                  <div
-                    class="iconfont iconwo yellow"
-                    v-if="item.resdtCot > 0"
-                  ></div>
+                  <div class="iconfont iconwo yellow" v-if="item.resdtCot > 0"></div>
                   <div class="nodata-line yellow" v-else>-</div>
                 </div>
 
                 <div class="icon-item">
-                  <div
-                    class="iconfont icondangyuan orange"
-                    v-if="item.speciCot > 0"
-                  ></div>
+                  <div class="iconfont icondangyuan orange" v-if="item.speciCot > 0"></div>
                   <div class="nodata-line orange" v-else>-</div>
                 </div>
               </div>
@@ -329,51 +212,20 @@
           </div>
         </div>
 
-        <div
-          class="table third"
-          :class="{ third_2: searchChooseIndex == 1 }"
-          v-if="nowTabIndex == 2 || searchChooseIndex == 1"
-        >
+        <div class="table third" :class="{ third_2: searchChooseIndex == 1 }" v-if="nowTabIndex == 2 || searchChooseIndex == 1">
           <div class="list" v-if="houseList.length > 0">
-            <div
-              class="item"
-              :class="{ choose_item: houseChooseIndex == index }"
-              v-for="(item, index) in houseList"
-              @click="changeHouse(index, item.local)"
-              :value="item.local"
-              :key="index"
-            >
+            <div class="item" :class="{ choose_item: houseChooseIndex == index }" v-for="(item, index) in houseList" @click="changeHouse(index, item.local)" :value="item.local" :key="index">
               <div class="left">
                 <div class="info">
-                  <div
-                    class="name"
-                    v-text="item.name_hidden"
-                    @click="changeInputPasswordDom(1, index)"
-                    v-if="item.speciFlag == '1' && !item.hasShowFullInfo"
-                  ></div>
+                  <div class="name" v-text="item.name_hidden" @click="changeInputPasswordDom(1, index)" v-if="item.speciFlag == '1' && !item.hasShowFullInfo"></div>
                   <div class="name" v-text="item.userName" v-else></div>
-                  <div
-                    class="sexual"
-                    v-text="item.sex == '1' ? '男' : '女'"
-                  ></div>
+                  <div class="sexual" v-text="item.sex == '1' ? '男' : '女'"></div>
                 </div>
                 <div class="icon_room">
-                  <div
-                    class="iconfont icondanghui icon-item red"
-                    v-if="item.partyFlag == '1'"
-                  ></div>
-                  <div
-                    class="iconfont icondangyuan icon-item blue"
-                    v-if="item.speciFlag == '1'"
-                  ></div>
-                  <div
-                    class="iconfont iconwo icon-item yellow"
-                    v-if="item.resdtFlag == '1'"
-                  ></div>
-                  <div
-                    class="iconfont iconzufang icon-item orange"
-                    v-if="item.tanetFlag == '1'"
-                  ></div>
+                  <div class="iconfont icondanghui icon-item red" v-if="item.partyFlag == '1'"></div>
+                  <div class="iconfont icondangyuan icon-item blue" v-if="item.speciFlag == '1'"></div>
+                  <div class="iconfont iconwo icon-item yellow" v-if="item.resdtFlag == '1'"></div>
+                  <div class="iconfont iconzufang icon-item orange" v-if="item.tanetFlag == '1'"></div>
                 </div>
               </div>
 
@@ -383,34 +235,21 @@
                 <div class="info">
                   <!-- <img class="image" src="./img/icons/shenfenzheng@2x.png" alt=""> -->
                   <i class="iconfont iconshenfenzheng"></i>
-                  <div
-                    class="value"
-                    @click="changeInputPasswordDom(1, index)"
-                    v-if="!item.hasShowFullInfo"
-                    v-text="item.cad_hidden"
-                  ></div>
+                  <div class="value" @click="changeInputPasswordDom(1, index)" v-if="!item.hasShowFullInfo" v-text="item.cad_hidden"></div>
                   <div class="value" v-else v-text="item.cad"></div>
                 </div>
 
                 <div class="info">
                   <!-- <img class="image" src="./img/icons/shoujihao@2x.png" alt=""> -->
                   <i class="iconfont iconshoujihao"></i>
-                  <div
-                    class="value"
-                    @click="changeInputPasswordDom(1, index)"
-                    v-if="!item.hasShowFullInfo"
-                    v-text="item.pho_hidden"
-                  ></div>
+                  <div class="value" @click="changeInputPasswordDom(1, index)" v-if="!item.hasShowFullInfo" v-text="item.pho_hidden"></div>
                   <div class="value" v-else v-text="item.pho"></div>
                 </div>
 
                 <div class="info">
                   <!-- <img class="image" src="./img/icons/huji@2x.png" alt=""> -->
                   <i class="iconfont iconhuji"></i>
-                  <div
-                    class="value"
-                    v-text="searchChooseIndex == 0 ? item.addr : item.native"
-                  ></div>
+                  <div class="value" v-text="searchChooseIndex == 0 ? item.addr : item.native"></div>
                 </div>
 
                 <div class="info">
@@ -434,23 +273,11 @@
         </div>
       </div>
 
-      <div
-        class="password_input_room"
-        :class="{ password_input_room_show: showInputPasswordDom }"
-        @click="changeInputPasswordDom(0)"
-        v-show="showInputPasswordDom"
-      >
+      <div class="password_input_room" :class="{ password_input_room_show: showInputPasswordDom }" @click="changeInputPasswordDom(0)" v-show="showInputPasswordDom">
         <div class="room" @click.stop="changeInputPasswordDom(1)">
           <div class="room_title">查看该信息需要更高权限</div>
           <div class="input_room">
-            <input
-              type="password"
-              class="input"
-              placeholder="请输入密码"
-              :value="inputPasswordValue"
-              @input="inputPassword($event)"
-              @keyup.enter="judgePassword($event)"
-            />
+            <input type="password" class="input" placeholder="请输入密码" :value="inputPasswordValue" @input="inputPassword($event)" @keyup.enter="judgePassword($event)" />
           </div>
           <div class="ctrl_btn">
             <div class="btn" @click.stop="changeInputPasswordDom(0)">取消</div>
@@ -472,65 +299,61 @@
 </template>
 
 <script>
-import "cesium/Source/Widgets/widgets.css";
-import {
-  CesiumMapContext,
-  MapContextHolder,
-  CesiumViewerFactory,
-} from "@/assets/js/map";
-import CesiumToolBox from "@/components/CesiumToolBox";
+import 'cesium/Source/Widgets/widgets.css';
+import { CesiumMapContext, MapContextHolder, CesiumViewerFactory } from '@/assets/js/map';
+import CesiumToolBox from '@/components/CesiumToolBox';
 export default {
   components: { CesiumToolBox },
   data: function () {
     return {
       searchList: [
         {
-          title: "房找人",
+          title: '房找人',
           focusIndex: -1, // 当前获取焦点下标
-          type: "select", // 输入类型
+          type: 'select', // 输入类型
           itemList: [
             {
-              title: "",
-              defaultTitle: "楼栋",
+              title: '',
+              defaultTitle: '楼栋',
               list: [],
               chooseIndex: -1,
             },
             {
-              title: "",
-              defaultTitle: "单元",
+              title: '',
+              defaultTitle: '单元',
               list: [],
               chooseIndex: -1,
             },
             {
-              title: "",
-              defaultTitle: "房号",
+              title: '',
+              defaultTitle: '房号',
               list: [],
               chooseIndex: -1,
             },
           ],
         },
         {
-          title: "人找房",
+          title: '人找房',
           focusIndex: -1, // 同上
-          type: "input", // 输入类型
+          type: 'input', // 输入类型
           itemList: [
             {
-              title: "姓名: ",
-              placeholder: "请输入姓名",
-              type: "text",
-              value: "",
+              title: '姓名: ',
+              placeholder: '请输入姓名',
+              type: 'text',
+              value: '',
             },
             {
-              title: "手机号: ",
-              placeholder: "请输入手机号",
-              type: "text",
-              value: "",
+              title: '手机号: ',
+              placeholder: '请输入手机号',
+              type: 'text',
+              value: '',
             },
             {
-              title: "身份证: ",
-              placeholder: "请输入身份证",
-              type: "text",
-              value: "",
+              title: '身份证: ',
+              placeholder: '请输入身份证',
+              type: 'text',
+              value: '',
             },
           ],
         },
@@ -548,8 +371,8 @@ export default {
       houseList: [],
       houseChooseIndex: -1,
       // hasShowFullInfo: false, // 是否显示所有信息
-      showFullInfoPassword: "123456",
-      inputPasswordValue: "",
+      showFullInfoPassword: '123456',
+      inputPasswordValue: '',
       showInputPasswordDom: false,
       showInputPasswordIndex: -1, // 所选人员信息下标
       x: 8,
@@ -559,30 +382,30 @@ export default {
   },
   mounted() {
     // 初始化cesium
-    const viewer = CesiumViewerFactory.getDefaultMap("cesiumContainer");
+    const viewer = CesiumViewerFactory.getDefaultMap('cesiumContainer');
     const cesiumMapContext = new CesiumMapContext(viewer);
     MapContextHolder.setContext(cesiumMapContext);
 
     let that = this;
     cesiumMapContext.addEnityClickedListener((e, pick) => {
-      var playWind = document.getElementById("playWind");
+      var playWind = document.getElementById('playWind');
       if (pick && pick.id) {
-        var playWindContent = document.getElementById("playWindContent");
+        var playWindContent = document.getElementById('playWindContent');
 
-        var content = "";
+        var content = '';
 
         if (pick.id.code == 8888 || pick.id.code == 9999) {
           // 党员活动中心8888居民活动中心9999
           content += pick.id.description;
           playWindContent.innerHTML = content;
-          playWind.style.display = "block";
-          playWind.style.left = e.position.x + "px";
-          playWind.style.top = e.position.y + "px";
+          playWind.style.display = 'block';
+          playWind.style.left = e.position.x + 'px';
+          playWind.style.top = e.position.y + 'px';
         } else {
           that.clickMapToShowTable(0, pick.id);
         }
       } else {
-        playWind.style.display = "none";
+        playWind.style.display = 'none';
       }
     });
   },
@@ -621,26 +444,20 @@ export default {
       }
       switch (index) {
         case 0: // 楼栋
-          let resp = await this.$get(
-            "http://nbol.liaodukeji.com/api_snow/buildingList",
-            {
-              org_id: "57fde62fceb011e9aa9100163e0d9e7f",
-            }
-          );
+          let resp = await this.$get('http://nbol.liaodukeji.com/api_snow/buildingList', {
+            org_id: '57fde62fceb011e9aa9100163e0d9e7f',
+          });
           if (resp.code == 1) {
             list = resp.data.building;
           }
           break;
         case 1: // 单元
           if (lastSelectInfo.chooseIndex < 0) {
-            this.$msg("请选择楼栋");
+            this.$msg('请选择楼栋');
           } else {
-            let resp = await this.$get(
-              "http://nbol.liaodukeji.com/api_snow/cellList",
-              {
-                buildingId: lastSelectInfo.list[lastSelectInfo.chooseIndex].id,
-              }
-            );
+            let resp = await this.$get('http://nbol.liaodukeji.com/api_snow/cellList', {
+              buildingId: lastSelectInfo.list[lastSelectInfo.chooseIndex].id,
+            });
             if (resp.code == 1) {
               list = resp.data.cell;
             }
@@ -648,14 +465,11 @@ export default {
           break;
         case 2: // 户
           if (lastSelectInfo.chooseIndex < 0) {
-            this.$msg("请选择单元");
+            this.$msg('请选择单元');
           } else {
-            let resp = await this.$get(
-              "http://nbol.liaodukeji.com/api_snow/roomList",
-              {
-                cellId: lastSelectInfo.list[lastSelectInfo.chooseIndex].id,
-              }
-            );
+            let resp = await this.$get('http://nbol.liaodukeji.com/api_snow/roomList', {
+              cellId: lastSelectInfo.list[lastSelectInfo.chooseIndex].id,
+            });
             if (resp.code == 1) {
               list = resp.data.room;
             }
@@ -666,8 +480,7 @@ export default {
 
       if (lastSelectInfo.chooseIndex >= 0 || index == 0) {
         searchList[searchChooseIndex].itemList[index].list = list;
-        searchList[searchChooseIndex].focusIndex =
-          index === searchList[searchChooseIndex].focusIndex ? -1 : index;
+        searchList[searchChooseIndex].focusIndex = index === searchList[searchChooseIndex].focusIndex ? -1 : index;
       }
     },
     chooseSelectOptions(selectIndex, optionIndex) {
@@ -677,12 +490,11 @@ export default {
       itemList.forEach((item, index) => {
         if (index == selectIndex) {
           itemList[selectIndex].chooseIndex = optionIndex;
-          itemList[selectIndex].title =
-            itemList[selectIndex].list[optionIndex].name;
+          itemList[selectIndex].title = itemList[selectIndex].list[optionIndex].name;
         } else if (index > selectIndex) {
           item.list = [];
           item.chooseIndex = -1;
-          item.title = "";
+          item.title = '';
         }
       });
 
@@ -701,18 +513,7 @@ export default {
     searchInfo(searchType = 1, funcParams = {}) {
       // 搜索信息
       let _this = this;
-      let {
-        showTableDom,
-        nowTabIndex,
-        searchList,
-        searchChooseIndex,
-        buildInfo,
-        buildChooseIndex,
-        unitList,
-        unitChooseIndex,
-        houseList,
-        houseChooseIndex,
-      } = this;
+      let { showTableDom, nowTabIndex, searchList, searchChooseIndex, buildInfo, buildChooseIndex, unitList, unitChooseIndex, houseList, houseChooseIndex } = this;
 
       let showIndex = -1;
 
@@ -731,12 +532,12 @@ export default {
 
           if ((params.phone && !isPhone) || (params.cardNo && !isIdCode)) {
             if (!isPhone) {
-              this.$msg("请输入正确格式手机号");
+              this.$msg('请输入正确格式手机号');
             } else if (!isIdCode) {
-              this.$msg("请输入正确格式身份证");
+              this.$msg('请输入正确格式身份证');
             }
           } else if (!params.userName && !params.phone && !params.cardNo) {
-            this.$msg("请输入搜索条件");
+            this.$msg('请输入搜索条件');
           } else {
             this.getFindPersonAPi(params).then((res) => {
               if (res.code == 1) {
@@ -744,10 +545,7 @@ export default {
 
                 res.data.houseInfo.forEach((item) => {
                   if (item.cad) {
-                    item.cad_hidden =
-                      item.cad.substring(0, 6) +
-                      "***" +
-                      item.cad.substring(15, 18);
+                    item.cad_hidden = item.cad.substring(0, 6) + '***' + item.cad.substring(15, 18);
                   }
                 });
 
@@ -769,7 +567,7 @@ export default {
               if (res.code == 1) {
                 _this.tabList = [
                   {
-                    title: funcParams.name + "信息汇总",
+                    title: funcParams.name + '信息汇总',
                   },
                 ];
 
@@ -794,17 +592,11 @@ export default {
 
                 if (_this.tabList.length > index) {
                   _this.tabList[index] = {
-                    title:
-                      searchList[0].itemList[index].list[
-                        searchList[0].itemList[index].chooseIndex
-                      ].name + (index == 0 ? "信息汇总" : ""),
+                    title: searchList[0].itemList[index].list[searchList[0].itemList[index].chooseIndex].name + (index == 0 ? '信息汇总' : ''),
                   };
                 } else {
                   _this.tabList.push({
-                    title:
-                      searchList[0].itemList[index].list[
-                        searchList[0].itemList[index].chooseIndex
-                      ].name + (index == 0 ? "信息汇总" : ""),
+                    title: searchList[0].itemList[index].list[searchList[0].itemList[index].chooseIndex].name + (index == 0 ? '信息汇总' : ''),
                   });
                 }
               } else {
@@ -814,32 +606,24 @@ export default {
           }
 
           // 主动改变表格
-          showIndex =
-            searchType == 2 && nowTabIndex > -1 ? nowTabIndex : showIndex;
+          showIndex = searchType == 2 && nowTabIndex > -1 ? nowTabIndex : showIndex;
 
           // 点击表格子选项
-          showIndex =
-            searchType == 3 && funcParams.itemClickIndex > -1
-              ? funcParams.itemClickIndex
-              : showIndex;
+          showIndex = searchType == 3 && funcParams.itemClickIndex > -1 ? funcParams.itemClickIndex : showIndex;
 
           switch (showIndex) {
             case -1:
-              this.$msg("请选择搜索条件");
+              this.$msg('请选择搜索条件');
               break;
             case 0: // 打开楼栋信息汇总
               _this
                 .getBuildingInfo({
-                  buildId:
-                    searchList[0].itemList[0].list[
-                      searchList[0].itemList[0].chooseIndex
-                    ].id,
+                  buildId: searchList[0].itemList[0].list[searchList[0].itemList[0].chooseIndex].id,
                 })
                 .then((res) => {
                   if (res.code == 1) {
                     _this.buildInfo = res.data;
-                    _this.buildChooseIndex =
-                      searchList[0].itemList[0].chooseIndex;
+                    _this.buildChooseIndex = searchList[0].itemList[0].chooseIndex;
                     console.log(_this.buildChooseIndex);
                   }
                 });
@@ -847,30 +631,19 @@ export default {
             case 1: // 打开单元信息汇总
               _this
                 .getCellInfo({
-                  cellId:
-                    searchType == 3
-                      ? buildInfo.cellInfo[buildChooseIndex].cellId
-                      : searchList[0].itemList[1].list[
-                          searchList[0].itemList[1].chooseIndex
-                        ].id,
+                  cellId: searchType == 3 ? buildInfo.cellInfo[buildChooseIndex].cellId : searchList[0].itemList[1].list[searchList[0].itemList[1].chooseIndex].id,
                 })
                 .then((res) => {
                   if (res.code == 1) {
                     _this.unitList = res.data.cellInfo;
-                    _this.unitChooseIndex =
-                      searchList[0].itemList[1].chooseIndex;
+                    _this.unitChooseIndex = searchList[0].itemList[1].chooseIndex;
                   }
                 });
               break;
             case 2: // 打开户信息汇总
               _this
                 .getRoomInfo({
-                  houseId:
-                    searchType == 3
-                      ? unitList[unitChooseIndex].houseId
-                      : searchList[0].itemList[2].list[
-                          searchList[0].itemList[2].chooseIndex
-                        ].id,
+                  houseId: searchType == 3 ? unitList[unitChooseIndex].houseId : searchList[0].itemList[2].list[searchList[0].itemList[2].chooseIndex].id,
                 })
                 .then((res) => {
                   if (res.code == 1) {
@@ -878,27 +651,20 @@ export default {
                       item.hasShowFullInfo = false; // 初始化用户敏感化信息显示判断
 
                       if (item.userName) {
-                        item.name_hidden = item.userName.substring(0, 1) + "**";
+                        item.name_hidden = item.userName.substring(0, 1) + '**';
                       }
 
                       if (item.cad) {
-                        item.cad_hidden =
-                          item.cad.substring(0, 6) +
-                          "***" +
-                          item.cad.substring(15, 18);
+                        item.cad_hidden = item.cad.substring(0, 6) + '***' + item.cad.substring(15, 18);
                       }
 
                       if (item.pho) {
-                        item.pho_hidden =
-                          item.pho.substring(0, 3) +
-                          "****" +
-                          item.pho.substring(8, 11);
+                        item.pho_hidden = item.pho.substring(0, 3) + '****' + item.pho.substring(8, 11);
                       }
                     });
 
                     _this.houseList = res.data.houseInfo;
-                    _this.houseChooseIndex =
-                      searchList[0].itemList[2].chooseIndex;
+                    _this.houseChooseIndex = searchList[0].itemList[2].chooseIndex;
                   }
                 });
               break;
@@ -915,7 +681,7 @@ export default {
     getBuildingInfo(params) {
       // 获取楼栋信息汇总
       console.log(`楼栋信息接口参数: `, params);
-      return this.$get("http://nbol.liaodukeji.com/api_snow/buildingInfo", {
+      return this.$get('http://nbol.liaodukeji.com/api_snow/buildingInfo', {
         buildingId: params.buildId,
       });
     },
@@ -923,20 +689,20 @@ export default {
     getCellInfo(params) {
       // 获取单元信息汇总
       console.log(`单元信息接口参数: `, params);
-      return this.$get("http://nbol.liaodukeji.com/api_snow/cellInfo", {
+      return this.$get('http://nbol.liaodukeji.com/api_snow/cellInfo', {
         cellId: params.cellId,
       });
     },
     getRoomInfo(params) {
       // 获取户信息汇总
       console.log(`户信息接口参数: `, params);
-      return this.$get("http://nbol.liaodukeji.com/api_snow/houseInfo", {
+      return this.$get('http://nbol.liaodukeji.com/api_snow/houseInfo', {
         houseId: params.houseId,
       });
     },
 
     getFindPersonAPi(params) {
-      return this.$get("http://nbol.liaodukeji.com/api_snow/findPerson", {
+      return this.$get('http://nbol.liaodukeji.com/api_snow/findPerson', {
         userName: params.userName,
         phoNo: params.phone,
         cardNo: params.cardNo,
@@ -1040,19 +806,14 @@ export default {
     },
     changeHouse(index, local) {
       this.houseChooseIndex = index;
-      var longitude = local.split(",")[0] * 1;
-      var latitude = local.split(",")[1] * 1;
+      var longitude = local.split(',')[0] * 1;
+      var latitude = local.split(',')[1] * 1;
       MapContextHolder.getMap().flyToPeopleHouse(longitude, latitude);
     },
     judgeIdCode(idcode) {
       // 判断身份证格式
       let isIdCode = true;
-      if (
-        idcode.length != 18 ||
-        !idcode ||
-        !idcode.match(/^[0-9]{17}[0-9xX]$/) ||
-        idcode == "111111111111111"
-      ) {
+      if (idcode.length != 18 || !idcode || !idcode.match(/^[0-9]{17}[0-9xX]$/) || idcode == '111111111111111') {
         isIdCode = false;
       }
 
@@ -1065,10 +826,9 @@ export default {
     },
     changeInputPasswordDom(type, index) {
       // 改变密码输入框显示状态
-      this.showInputPasswordIndex =
-        index >= 0 ? index : this.showInputPasswordIndex;
+      this.showInputPasswordIndex = index >= 0 ? index : this.showInputPasswordIndex;
       this.showInputPasswordDom = type != 0;
-      this.inputPasswordValue = "";
+      this.inputPasswordValue = '';
     },
     inputPassword(e) {
       this.inputPasswordValue = e.target.value;
@@ -1078,32 +838,27 @@ export default {
 
       if (showFullInfoPassword == e.target.value) {
         // this.hasShowFullInfo = true
-        this.$msg("密码正确");
+        this.$msg('密码正确');
         this.showInputPasswordDom = false;
         this.houseList[showInputPasswordIndex].hasShowFullInfo = true;
       } else {
         // this.hasShowFullInfo = false
         this.houseList[showInputPasswordIndex].hasShowFullInfo = false;
-        this.$msg("密码输入错误");
+        this.$msg('密码输入错误');
       }
     },
     surePassword() {
-      let {
-        inputPasswordValue,
-        showFullInfoPassword,
-        houseList,
-        showInputPasswordIndex,
-      } = this;
+      let { inputPasswordValue, showFullInfoPassword, houseList, showInputPasswordIndex } = this;
 
       if (inputPasswordValue == showFullInfoPassword) {
         // this.hasShowFullInfo = true
         this.houseList[showInputPasswordIndex].hasShowFullInfo = true;
-        this.$msg("密码正确");
+        this.$msg('密码正确');
         this.showInputPasswordDom = false;
       } else {
         // this.hasShowFullInfo = false
         this.houseList[showInputPasswordIndex].hasShowFullInfo = false;
-        this.$msg("密码输入错误");
+        this.$msg('密码输入错误');
       }
     },
   },

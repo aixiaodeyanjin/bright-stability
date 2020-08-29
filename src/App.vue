@@ -39,23 +39,13 @@
       <div class="block menu">
         <div class="iconfont iconcaidan"></div>
         <div class="text" v-text="menuList[menuIndex].text"></div>
-        <div
-          class="direction"
-          :class="{ up: menuShow }"
-          @click="menuShow = !menuShow"
-        >
+        <div class="direction" :class="{ up: menuShow }" @click="menuShow = !menuShow">
           <div div class="point"></div>
           <div class="bar left-bar"></div>
           <div class="bar right-bar"></div>
         </div>
         <div class="all-menu" v-show="menuShow">
-          <div
-            class="item"
-            @click="chooseMenu(item)"
-            :class="{ item_now: index == menuIndex }"
-            v-for="(item, index) in menuList"
-            :key="index"
-          >
+          <div class="item" @click="chooseMenu(item)" :class="{ item_now: index == menuIndex }" v-for="(item, index) in menuList" :key="index">
             <span v-text="item.text"></span>
             <div class="point" v-if="index == menuIndex"></div>
           </div>
@@ -67,15 +57,15 @@
 </template>
 
 <script>
-import Stability from "@/pages/stability/index.vue";
-import "@/assets/iconfont/iconfont.css";
-import "@/assets/css/wending.css";
-import moment from "moment";
-import "moment/locale/zh-cn";
-import lunarCalendar from "lunar-calendar";
+import Stability from '@/pages/stability/index.vue';
+import '@/assets/iconfont/iconfont.css';
+import '@/assets/css/wending.css';
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+import lunarCalendar from 'lunar-calendar';
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
     Stability,
   },
@@ -93,43 +83,39 @@ export default {
   computed: {
     weather() {
       let wid = parseInt(this.nowWeatherInfo.realtime.wid);
-      let icon = "";
+      let icon = '';
       if (wid >= 0 && wid < 8) {
         switch (wid) {
           case 0:
-            icon = "iconqing";
+            icon = 'iconqing';
             break;
           case 1:
-            icon = "iconduoyun";
+            icon = 'iconduoyun';
             break;
           case 2:
-            icon = "iconyintian";
+            icon = 'iconyintian';
             break;
           case 4:
-            icon = "iconleidian";
+            icon = 'iconleidian';
             break;
           case 5:
           case 6:
-            icon = "icontianqi-";
+            icon = 'icontianqi-';
             break;
           case 7:
-            icon = "iconxiaoyu";
+            icon = 'iconxiaoyu';
             break;
           default:
             break;
         }
       } else if (wid >= 8 && wid <= 12) {
-        icon = "icondayu";
-      } else if (
-        (wid >= 13 && wid <= 17) ||
-        wid == 19 ||
-        (wid >= 26 && wid <= 28)
-      ) {
-        icon = "icontianqi-1";
+        icon = 'icondayu';
+      } else if ((wid >= 13 && wid <= 17) || wid == 19 || (wid >= 26 && wid <= 28)) {
+        icon = 'icontianqi-1';
       } else if (wid >= 21 && wid <= 25) {
-        icon = "icondayu";
+        icon = 'icondayu';
       } else {
-        icon = "icontianqi-wumai";
+        icon = 'icontianqi-wumai';
       }
       return icon;
     },
@@ -137,23 +123,19 @@ export default {
       return moment(this.systemTime);
     },
     date() {
-      return this.moment.format("YYYY-MM-DD");
+      return this.moment.format('YYYY-MM-DD');
     },
     time() {
-      return this.moment.format("HH:mm:ss");
+      return this.moment.format('HH:mm:ss');
     },
     meridiem() {
-      return this.moment.format("A");
+      return this.moment.format('A');
     },
     week() {
-      return this.moment.format("dddd");
+      return this.moment.format('dddd');
     },
     lunar() {
-      let lunar = lunarCalendar.solarToLunar(
-        this.moment.year(),
-        this.moment.month() + 1,
-        this.moment.date()
-      );
+      let lunar = lunarCalendar.solarToLunar(this.moment.year(), this.moment.month() + 1, this.moment.date());
       return `${lunar.GanZhiYear}(${lunar.zodiac})年${lunar.lunarMonthName}${lunar.lunarDayName}`;
     },
   },
@@ -181,7 +163,7 @@ export default {
     getWeatherInfo() {
       // 获取天气信息
       let _this = this;
-      let nowCache = JSON.parse(_this.getCache("_bright_weather_today"));
+      let nowCache = JSON.parse(_this.getCache('_bright_weather_today'));
       if (nowCache && this.date == nowCache.setDate) {
         _this.nowWeatherInfo = nowCache.data;
       } else {
@@ -190,11 +172,11 @@ export default {
             _this.nowWeatherInfo = result.data;
 
             localStorage.setItem(
-              "_bright_weather_today",
+              '_bright_weather_today',
               JSON.stringify({
                 setDate: this.date,
                 data: result.data,
-              })
+              }),
             );
           }
         });
@@ -202,9 +184,7 @@ export default {
     },
   },
   beforeDestroy() {
-    this.clockRequestId &&
-      cancelAnimationFrame &&
-      cancelAnimationFrame(this.clockRequestId);
+    this.clockRequestId && cancelAnimationFrame && cancelAnimationFrame(this.clockRequestId);
   },
 };
 </script>

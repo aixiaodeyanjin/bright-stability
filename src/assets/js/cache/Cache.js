@@ -1,23 +1,23 @@
 export default class Cache {
-  constructor (name) {
-    this.name = name
+  constructor(name) {
+    this.name = name;
   }
 
-  getName () {
-    return this.name
+  getName() {
+    return this.name;
   }
 
-  getNativeCache () {}
+  getNativeCache() {}
 
-  get (key) {}
+  get(key) {}
 
-  put (key, object) {}
+  put(key, object) {}
 
-  evict (key) {}
+  evict(key) {}
 
-  contains (key) {}
+  contains(key) {}
 
-  getAll () {}
+  getAll() {}
 
-  putIfAbsent (key, object) {}
+  putIfAbsent(key, object) {}
 }

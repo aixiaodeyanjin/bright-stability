@@ -1,45 +1,15 @@
 <template>
   <div class="measure-box">
     <div class="measure-type-tab">
-      <a
-        href="javascript:void(0)"
-        class="btn"
-        :class="{ active: measureType == 0 }"
-        @click="measureType = 0"
-        ><i class="iconfont icon-ceju"></i> 距离</a
-      >
-      <a
-        href="javascript:void(0)"
-        class="btn"
-        :class="{ active: measureType == 1 }"
-        @click="measureType = 1"
-        ><i class="iconfont icon-mianji"></i> 面积</a
-      >
+      <a href="javascript:void(0)" class="btn" :class="{ active: measureType == 0 }" @click="measureType = 0"><i class="iconfont icon-ceju"></i> 距离</a>
+      <a href="javascript:void(0)" class="btn" :class="{ active: measureType == 1 }" @click="measureType = 1"><i class="iconfont icon-mianji"></i> 面积</a>
     </div>
 
     <div class="title">测量历史</div>
     <div class="btn-group-simple right">
-      <a
-        href="javascript:void(0);"
-        class="btn-simple"
-        @click="saveMeasure()"
-        v-show="doMeasureType != null && shouldShowSaveBtn"
-        >保存测量</a
-      >
-      <a
-        href="javascript:void(0);"
-        class="btn-simple"
-        @click="cancelMeasure()"
-        v-show="doMeasureType != null"
-        >取消测量</a
-      >
-      <a
-        href="javascript:void(0);"
-        class="btn-simple"
-        @click="measure()"
-        v-show="doMeasureType == null"
-        >新建测量</a
-      >
+      <a href="javascript:void(0);" class="btn-simple" @click="saveMeasure()" v-show="doMeasureType != null && shouldShowSaveBtn">保存测量</a>
+      <a href="javascript:void(0);" class="btn-simple" @click="cancelMeasure()" v-show="doMeasureType != null">取消测量</a>
+      <a href="javascript:void(0);" class="btn-simple" @click="measure()" v-show="doMeasureType == null">新建测量</a>
     </div>
 
     <div class="distance-measure">
@@ -54,11 +24,7 @@
             </tr>
           </thead>
           <tbody class="t-body">
-            <tr
-              class="t-row"
-              v-for="(distance, i) in orderedDistance"
-              :key="distance.id"
-            >
+            <tr class="t-row" v-for="(distance, i) in orderedDistance" :key="distance.id">
               <td class="t-cell" v-text="i + 1"></td>
               <td class="t-cell">{{ formatTime(distance.createTime) }}</td>
               <td class="t-cell">{{ distance.totalDistance.toFixed(3) }}米</td>
@@ -67,16 +33,13 @@
                   ><i
                     class="iconfont icon-yulan"
                     :class="{
-                      active:
-                        activeDistanceHistoryIds.indexOf(distance.id) > -1,
+                      active: activeDistanceHistoryIds.indexOf(distance.id) > -1,
                     }"
                   ></i
                   >查看</span
                 >
                 |
-                <span class="btn" @click="deleteDistanceMeasure(distance)"
-                  ><i class="iconfont icon-del"></i>删除</span
-                >
+                <span class="btn" @click="deleteDistanceMeasure(distance)"><i class="iconfont icon-del"></i>删除</span>
               </td>
             </tr>
             <tr class="t-row" v-if="distanceMeasures.length <= 0">
@@ -98,11 +61,7 @@
           </tr>
         </thead>
         <tbody class="t-body">
-          <tr
-            class="t-row"
-            v-for="(polygon, i) in orderedArea"
-            :key="polygon.id"
-          >
+          <tr class="t-row" v-for="(polygon, i) in orderedArea" :key="polygon.id">
             <td class="t-cell" v-text="i + 1"></td>
             <td class="t-cell">{{ formatTime(polygon.createTime) }}</td>
             <td class="t-cell">{{ polygon.area.toFixed(3) }}平方米</td>
@@ -117,9 +76,7 @@
                 >查看</span
               >
               |
-              <span class="btn" @click="deleteAreaMeasure(polygon)"
-                ><i class="iconfont icon-del"></i>删除</span
-              >
+              <span class="btn" @click="deleteAreaMeasure(polygon)"><i class="iconfont icon-del"></i>删除</span>
             </td>
           </tr>
           <tr class="t-row" v-if="areaMeasures.length <= 0">
@@ -132,10 +89,10 @@
 </template>
 
 <script>
-import moment from "moment";
-import { DistanceMeasure, AreaMeasure } from "@/assets/js/map/tools";
-import { Cartesian3, Entity, Color } from "cesium";
-import { MapContextHolder } from "@/assets/js/map/index";
+import moment from 'moment';
+import { DistanceMeasure, AreaMeasure } from '@/assets/js/map/tools';
+import { Cartesian3, Entity, Color } from 'cesium';
+import { MapContextHolder } from '@/assets/js/map/index';
 
 export default {
   data() {
@@ -197,7 +154,7 @@ export default {
 
   methods: {
     formatTime(time) {
-      return moment(time).format("YYYY-MM-DD HH:mm:ss");
+      return moment(time).format('YYYY-MM-DD HH:mm:ss');
     },
 
     /**
@@ -244,14 +201,14 @@ export default {
           this.measureTool.saveMeasure().then((data) => {
             that.distanceMeasures.push(data);
             that.cancelMeasure();
-            that.$msg("保存成功");
+            that.$msg('保存成功');
           });
           break;
         case 1:
           this.measureTool.saveMeasure().then((data) => {
             that.areaMeasures.push(data);
             that.cancelMeasure();
-            that.$msg("保存成功");
+            that.$msg('保存成功');
           });
           break;
         default:
@@ -267,12 +224,11 @@ export default {
       DistanceMeasure.deleteMeasure(distance.id).then(() => {
         let index = that.distanceMeasures.indexOf(distance);
         that.distanceMeasures.splice(index, 1);
-        let isShowInMap =
-          that.activeDistanceHistoryIds.indexOf(distance.id) > -1;
+        let isShowInMap = that.activeDistanceHistoryIds.indexOf(distance.id) > -1;
         if (isShowInMap) {
           that.viewDistanceMeasure(distance);
         }
-        that.$msg("删除成功");
+        that.$msg('删除成功');
       });
     },
 
@@ -286,11 +242,7 @@ export default {
         this.$delete(this.activeDistanceHistoryIds, index);
         DistanceMeasure.removeDistanceMeasure(this.viewer, id);
       } else {
-        this.$set(
-          this.activeDistanceHistoryIds,
-          this.activeDistanceHistoryIds.length,
-          id
-        );
+        this.$set(this.activeDistanceHistoryIds, this.activeDistanceHistoryIds.length, id);
         DistanceMeasure.viewDistanceMeasure(this.viewer, distance);
       }
     },
@@ -305,11 +257,7 @@ export default {
         this.$delete(this.activeAreaHistoryIds, index);
         AreaMeasure.removeAreaMeasure(this.viewer, id);
       } else {
-        this.$set(
-          this.activeAreaHistoryIds,
-          this.activeAreaHistoryIds.length,
-          id
-        );
+        this.$set(this.activeAreaHistoryIds, this.activeAreaHistoryIds.length, id);
         AreaMeasure.viewAreaMeasure(this.viewer, polygon);
       }
     },
@@ -326,7 +274,7 @@ export default {
         if (isShowInMap) {
           that.viewAreaMeasure(polygon);
         }
-        that.$msg("删除成功");
+        that.$msg('删除成功');
       });
     },
 
