@@ -23,7 +23,7 @@
         <div class="img"></div>
         <div class="room">
           <img class="logo" src="@/assets/img/header/logo@2x.png" />
-          <div class="text">马群街道芝嘉花园</div>
+          <div class="text">浦口区汤泉街道</div>
         </div>
       </div>
       <div class="block week">
