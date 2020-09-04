@@ -1,5 +1,4 @@
 
-
 body {
     font-size: 0.16rem;
     font-family: PingFangSC-Regular;
@@ -31,7 +30,7 @@ a {
     display: flex;
     align-items: center;
     font-size: 0.12rem;
-    font-family: PingFangSC-Regular;
+    font-family: PingFangSC-Light;
 }
 
 .header .title {
@@ -106,14 +105,14 @@ a {
     line-height: 0.5rem;
     letter-spacing: 1px;
     font-weight: 100;
-    font-family: PingFangSC-Regular;
+    font-family: PingFangSC-Thin;
 }
 
 .header .clock .type {
     font-size: 0.12rem;
     line-height: 0.17rem;
     font-weight: 300;
-    font-family: PingFangSC-Regular;
+    font-family: PingFangSC-Light;
     position: absolute;
     top: 0.05rem;
     left: 2.05rem;
@@ -673,10 +672,11 @@ a {
 }
 
 #cesiumContainer {
-    top: 0;
+    position: absolute;
     width: 100%;
-    z-index: -10;
     height: 100%;
+    z-index: 0;
+    /* height: calc(100vh - 60px); */
 }
 
 .bg_top,
@@ -1187,6 +1187,12 @@ a {
     width: 0.3rem;
     height: 0.3rem;
     border-radius: 2px;
+    font-size: 0.3rem;
+}
+
+.icon_tip_room .item-fixed .image {
+    font-size: 0.4rem;
+    line-height: 0.3rem;
 }
 
 .icon_tip_room .item .info-item {
@@ -1334,7 +1340,7 @@ a {
 }
 
 .build_info .first .all_info .left {
-    width: 200px;
+    width: 150px;
     height: 50px;
     display: flex;
     flex-direction: column;
@@ -1344,7 +1350,7 @@ a {
 }
 
 .build_info .first .all_info .right {
-    width: calc(100% - 200px);
+    width: calc(100% - 150px);
     height: 50px;
     display: flex;
     justify-content: space-between;
@@ -1431,19 +1437,19 @@ a {
 }
 
 .build_info .first .list .item .btn_room .btn {
-    padding: 0px 0.1rem;
-    width: 0.6rem;
+    padding: 0rem 0.1rem;
+    width: calc(50% - 0.2rem);
     height: 0.25rem;
     border-radius: 2px;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    margin-bottom: 11px;
+    margin-bottom: 0.11rem;
 }
 
-.build_info .first .list .item .btn_room .btn:nth-child(2n+1) {
-    margin-right: calc(100% - 1.6rem);
-}
+/* .build_info .first .list .item .btn_room .btn:nth-child(2n+1) {
+    margin-right: calc(100% - 160px);
+} */
 
 .build_info .first .list .item .btn_room .icondanghui {
     font-size: 0.12rem;
@@ -1624,6 +1630,9 @@ a {
     display: flex;
     align-items: center;
     margin-bottom: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .build_info .third .list .item .right .info:nth-last-child(2) {
@@ -1643,6 +1652,10 @@ a {
 .build_info .third .list .item .right .info .value {
     font-size: 14px;
     color: #fff;
+}
+
+.build_info .third .list .item .right .info_long {
+    width: 100%;
 }
 
 .build_info .third .list .choose_item {

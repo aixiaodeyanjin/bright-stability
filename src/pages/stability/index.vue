@@ -808,7 +808,9 @@ export default {
       this.houseChooseIndex = index;
       var longitude = local.split(',')[0] * 1;
       var latitude = local.split(',')[1] * 1;
-      MapContextHolder.getMap().flyToPeopleHouse(longitude, latitude);
+      MapContextHolder.getContext().then((context) => {
+        context.flyToPeopleHouse(longitude, latitude);
+      });
     },
     judgeIdCode(idcode) {
       // 判断身份证格式

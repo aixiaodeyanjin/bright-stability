@@ -24,9 +24,6 @@ export default class MapContext {
         pitch: Cesium.Math.toRadians(-90),
         roll: Cesium.Math.toRadians(0),
       },
-      easingFunction: (time) => {
-        return time - 1;
-      },
     });
   }
 

@@ -23,7 +23,7 @@
         <div class="img"></div>
         <div class="room">
           <img class="logo" src="@/assets/img/header/logo@2x.png" />
-          <div class="text">浦口区汤泉街道</div>
+          <div class="text">马群街道芝嘉花园</div>
         </div>
       </div>
       <div class="block week">
@@ -63,7 +63,15 @@ import '@/assets/css/wending.css';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import lunarCalendar from 'lunar-calendar';
+let windowWidth = $(window).width();
+let windowHeight = $(window).height();
+let remBaseUnit = 19.2; // 基础字体大小
 
+let fontSize = windowWidth / remBaseUnit;
+
+$('html').css({
+  fontSize: fontSize,
+});
 export default {
   name: 'App',
   components: {
@@ -190,9 +198,6 @@ export default {
 </script>
 
 <style>
-:root {
-  font-size: calc(100vw / 19.2);
-}
 .header .all-menu .item .point {
   width: 0.08rem;
   height: 0.08rem;
