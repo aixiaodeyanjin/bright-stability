@@ -17,7 +17,6 @@ module.exports = {
           '^/xlgc': ''
         },
         changeOrigin: true,
-        logLevel: 'debug',
       },
       '/img/u0.jpg': {
         target: 'http://xlgc.liaodukeji.com/',
@@ -26,7 +25,6 @@ module.exports = {
       '/stability': {
         target: 'http://bright.liaodukeji.com/',
         changeOrigin: true,
-        logLevel: 'debug',
       },
     },
 
