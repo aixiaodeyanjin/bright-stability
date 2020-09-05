@@ -63,15 +63,7 @@ import '@/assets/css/wending.css';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import lunarCalendar from 'lunar-calendar';
-let windowWidth = $(window).width();
-let windowHeight = $(window).height();
-let remBaseUnit = 19.2; // 基础字体大小
 
-let fontSize = windowWidth / remBaseUnit;
-
-$('html').css({
-  fontSize: fontSize,
-});
 export default {
   name: 'App',
   components: {
@@ -198,6 +190,9 @@ export default {
 </script>
 
 <style>
+:root {
+  font-size: calc(100vw / 19.2);
+}
 .header .all-menu .item .point {
   width: 0.08rem;
   height: 0.08rem;
