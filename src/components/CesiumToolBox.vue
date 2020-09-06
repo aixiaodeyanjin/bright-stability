@@ -47,5 +47,5 @@ export default {
 </script>
 
 <style>
-@import url(//at.alicdn.com/t/font_2022970_jwsioue03oe.css);
+@import url(//at.alicdn.com/t/font_2022970_2vuy495aje8.css);
 </style>

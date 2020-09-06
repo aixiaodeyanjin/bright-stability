@@ -19,6 +19,7 @@ class CesiumViewerFactory {
       .vrButton(false)
       .hideCredit()
       .infoBox(false)
+      .scene3DOnly(true)
       .shouldAnimate(true)
       .selectionIndicator(false)
       .terrainProvider(

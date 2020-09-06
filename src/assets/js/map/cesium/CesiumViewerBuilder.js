@@ -69,6 +69,11 @@ class CesiumViewerBuilder {
     return new CesiumViewerBuilder(container);
   }
 
+  scene3DOnly(scene3DOnly) {
+    this.userOptions.scene3DOnly = scene3DOnly;
+    return this;
+  }
+
   selectionIndicator(selectionIndicator) {
     this.userOptions.selectionIndicator = selectionIndicator;
     return this;
