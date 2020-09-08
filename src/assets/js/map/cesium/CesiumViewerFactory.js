@@ -73,7 +73,7 @@ class CesiumViewerFactory {
             loadBuildingInfo(viewer);
             viewer.flyTo(palaceTileset, {
               duration: 4,
-              offset: new Cesium.HeadingPitchRange(0, Cesium.Math.toRadians(-90), 1500),
+              offset: new Cesium.HeadingPitchRange(0, Cesium.Math.toRadians(-15), 800),
             });
           }
         });
