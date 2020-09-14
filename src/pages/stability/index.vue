@@ -2,6 +2,9 @@
   <div class="content">
     <div id="cesiumContainer"></div>
     <CesiumToolBox></CesiumToolBox>
+    <Progress :value="tileLoadProgress" :radius="8" :transitionDuration="300" strokeColor="#2499d6">
+      <div class="content" v-text="tileLoadProgress + '%'"></div>
+    </Progress>
     <div class="main wending-main">
       <div class="menus_search" v-show="showSearchDom">
         <div class="tabbar">
@@ -302,8 +305,9 @@
 import 'cesium/Source/Widgets/widgets.css';
 import { CesiumMapContext, MapContextHolder, CesiumViewerFactory } from '@/assets/js/map';
 import CesiumToolBox from '@/components/CesiumToolBox';
+import Progress from 'easy-circular-progress';
 export default {
-  components: { CesiumToolBox },
+  components: { CesiumToolBox, Progress },
   data: function () {
     return {
       searchList: [
@@ -378,11 +382,17 @@ export default {
       x: 8,
       y: -7,
       z: 16,
+      /**
+       * 图层瓦皮加载进度
+       */
+      tileLoadProgress: 0,
     };
   },
   mounted() {
     // 初始化cesium
     const viewer = CesiumViewerFactory.getDefaultMap('cesiumContainer');
+    this.viewer = viewer;
+    this.initTileLoadProgressListener();
     const cesiumMapContext = new CesiumMapContext(viewer);
     MapContextHolder.setContext(cesiumMapContext);
 
@@ -413,6 +423,24 @@ export default {
     MapContextHolder.clearContext();
   },
   methods: {
+    /**
+     * 初始化瓦片加载监听
+     */
+    initTileLoadProgressListener() {
+      let totalLength = 0;
+      let that = this;
+      this.viewer.scene.globe.tileLoadProgressEvent.addEventListener((length) => {
+        if (length > totalLength || length == 0) {
+          totalLength = length;
+        }
+        if (length != 0) {
+          that.tileLoadProgress = (((totalLength - length) / totalLength) * 100).toFixed(2);
+        } else {
+          that.tileLoadProgress = 100.0;
+        }
+      });
+    },
+
     clickMapToShowTable(tableIndex = 0, params) {
       // 点击地图标记点显示右侧信息汇总表格
       this.searchInfo(5, params);
@@ -909,5 +937,30 @@ export default {
   -webkit-box-sizing: content-box;
   box-sizing: content-box;
   right: 40px;
+}
+.vue-circular-progress {
+  position: absolute;
+  z-index: 1;
+  font-size: 10px;
+  bottom: 0px;
+  height: 24px;
+}
+.vue-circular-progress .circle {
+  height: 24px;
+}
+.vue-circular-progress .percent__int {
+  font-size: 12px !important;
+}
+.vue-circular-progress .percent {
+  top: 43% !important;
+  left: 170% !important;
+  height: 24px;
+}
+.vue-circular-progress .percent .content {
+  height: unset !important;
+}
+.vue-circular-progress .percent > .dot,
+.percent__dec {
+  display: none;
 }
 </style>
