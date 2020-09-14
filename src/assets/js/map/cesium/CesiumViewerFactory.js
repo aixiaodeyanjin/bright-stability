@@ -59,6 +59,7 @@ class CesiumViewerFactory {
         );
       })
       .addBuildAfter((viewer) => {
+        window.viewer = viewer;
         var palaceTileset = new Cesium.Cesium3DTileset({
           url: '/xlgc/data/Scene/3dtile.json',
           maximumScreenSpaceError: 1,
@@ -71,9 +72,13 @@ class CesiumViewerFactory {
           if (length == 0) {
             remove();
             loadBuildingInfo(viewer);
-            viewer.flyTo(palaceTileset, {
+            viewer.camera.flyTo({
+              destination: { x: -2615523.4734339523, y: 4736815.366448046, z: 3365604.50744894 },
               duration: 4,
-              offset: new Cesium.HeadingPitchRange(0, Cesium.Math.toRadians(-15), 800),
+              orientation: {
+                direction: { x: 0.468954950074849, y: -0.6712345816078462, z: 0.5740430221281638 },
+                up: { x: -0.1613287055209825, y: 0.4183191675331538, z: 0.8938579992645888 },
+              },
             });
           }
         });

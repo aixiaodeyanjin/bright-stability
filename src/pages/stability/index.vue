@@ -957,7 +957,7 @@ export default {
   height: 24px;
 }
 .vue-circular-progress .percent .content {
-  height: unset !important;
+  height: 24px !important;
 }
 .vue-circular-progress .percent > .dot,
 .percent__dec {
