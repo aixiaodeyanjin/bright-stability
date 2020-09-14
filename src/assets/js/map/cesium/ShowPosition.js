@@ -36,17 +36,19 @@ function ShowPosition(viewer, Cesium, cesiumContainer) {
   }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
   // 设置鼠标滚动事件的处理函数，这里负责监听高度值变化
   handler.setInputAction(function (wheelment) {
-    var cartographic = ellipsoid.cartesianToCartographic(cartesian);
-    height.innerText = '镜头高度：' + Math.ceil(viewer.camera.positionCartographic.height) + '米';
-    longitudeString.innerText = '经度：' + Cesium.Math.toDegrees(cartographic.longitude);
-    latitudeString.innerText = '纬度：' + Cesium.Math.toDegrees(cartographic.latitude);
+    if (cartesian) {
+      var cartographic = ellipsoid.cartesianToCartographic(cartesian);
+      height.innerText = '镜头高度：' + Math.ceil(viewer.camera.positionCartographic.height) + '米';
+      longitudeString.innerText = '经度：' + Cesium.Math.toDegrees(cartographic.longitude);
+      latitudeString.innerText = '纬度：' + Cesium.Math.toDegrees(cartographic.latitude);
+    }
   }, Cesium.ScreenSpaceEventType.WHEEL);
 }
 
 function createPositionBar(cesiumContainer) {
   let CesiumBottomBar = document.createElement('div');
-  CesiumBottomBar.id = 'CesiumBottomBar';
-  let CesiumBottomStyle = 'position: absolute; bottom: 10px;z-index:1000;opacity: 1;width: auto;right: 0px;height: 24.3px;' + 'display: block;padding: 2px;background: rgba(42, 42, 42, 0);';
+  CesiumBottomBar.id = 'coordinates';
+  let CesiumBottomStyle = 'position: absolute; bottom: 0px;z-index:1000;opacity: 1;width: 100%;right: 0px;height: 24.3px;' + 'display: block;padding: 2px;background: rgba(0,0,0,.5);';
   CesiumBottomBar.style.cssText = CesiumBottomStyle;
 
   let PositionDiv = document.createElement('div');
@@ -59,7 +61,7 @@ function createPositionBar(cesiumContainer) {
   LatLable.id = 'lat';
   HegLable.id = 'heg';
 
-  let lableStyle = "color: #FFFFFF; font-family: 'Roboto', sans-serif;font-size: 14px;margin:15px";
+  let lableStyle = 'color: #FFFFFF; font-family: cursive;font-size: 12px;margin:5px';
   LonLable.style.cssText = lableStyle;
   LatLable.style.cssText = lableStyle;
   HegLable.style.cssText = lableStyle;
@@ -69,8 +71,8 @@ function createPositionBar(cesiumContainer) {
   PositionDiv.appendChild(HegLable);
   CesiumBottomBar.appendChild(PositionDiv);
 
-  let CesiumContrainer = document.getElementById(cesiumContainer);
-  CesiumContrainer.append(CesiumBottomBar);
+  // let CesiumContrainer = document.getElementById(cesiumContainer);
+  cesiumContainer.append(CesiumBottomBar);
 }
 
 export default ShowPosition;

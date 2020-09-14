@@ -91,7 +91,7 @@ class CesiumViewerFactory {
         // 用于启用或禁用指南针外环。true是启用，false是禁用。默认值为true。如果将选项设置为false，则该环将可见但无效。
         options.enableCompassOuterRing = true;
         CesiumNavigation(viewer, options);
-        ShowPosition(viewer, Cesium, 'cesiumContainer');
+        ShowPosition(viewer, Cesium, viewer.cesiumWidget.container);
       })
       .addBuildAfter((viewer) => {
         // viewer.scene.globe.enableLighting = true
