@@ -9,7 +9,6 @@
           <a class="icon-people" :class="{ active: currentTabContent == 'stroller' }" href="javascript:void(0);" @click="currentTabContent = 'stroller'">漫步</a>
           <a class="icon-video" :class="{ active: currentTabContent == 'videoWall' }" href="javascript:void(0);" @click="currentTabContent = 'videoWall'">视频墙</a>
           <a class="icon-measure" :class="{ active: currentTabContent == 'measure' }" href="javascript:void(0);" @click="currentTabContent = 'measure'">量算</a>
-          <a class="icon-sun" :class="{ active: currentTabContent == 'sunAnalyze' }" href="javascript:void(0);" @click="currentTabContent = 'sunAnalyze'">光照分析</a>
           <a class="icon-flood" :class="{ active: currentTabContent == 'floodAnalyze' }" href="javascript:void(0);" @click="currentTabContent = 'floodAnalyze'">淹没分析</a>
         </div>
 
@@ -25,9 +24,10 @@
 
 <script>
 import '@/assets/css/cesium-tool.css';
-const Stroller = () => import('./cesium-tools/Stroller');
-const VideoWall = () => import('./cesium-tools/VideoWall');
-const Measure = () => import('./cesium-tools/Measure');
+import loading from './cesium-tools/Loading';
+const Stroller = () => ({ component: import('./cesium-tools/Stroller'), loading });
+const VideoWall = () => ({ component: import('./cesium-tools/VideoWall'), loading });
+const Measure = () => ({ component: import('./cesium-tools/Measure'), loading });
 export default {
   components: { Stroller, VideoWall, Measure },
   data() {
@@ -47,5 +47,5 @@ export default {
 </script>
 
 <style>
-@import url(//at.alicdn.com/t/font_2022970_2vuy495aje8.css);
+@import url(//at.alicdn.com/t/font_2022970_72cdeo0cnj5.css);
 </style>
