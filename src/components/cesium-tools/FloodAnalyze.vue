@@ -1,10 +1,10 @@
 <template>
   <div class="flood-analyze">
     <div class="parameter">
-      <div class="input-wrapper"><span>初始水位:</span><input v-model="minHeight" type="number" step="1" autocomplete="off" /></div>
-      <div class="input-wrapper"><span>预设水位:</span><input v-model="maxHeight" type="number" step="1" autocomplete="off" /></div>
-      <div class="input-wrapper"><span>模拟速度:</span><input v-model="speed" type="number" min="0.1" step=".5" autocomplete="off" /></div>
-      <div class="input-wrapper"><span>当前水位:</span><input v-model="currHeight" type="number" step="1" autocomplete="off" disabled /></div>
+      <div class="input-wrapper"><span>初始水位(米):</span><input v-model="minHeight" type="number" step="1" autocomplete="off" /></div>
+      <div class="input-wrapper"><span>预设水位(米):</span><input v-model="maxHeight" type="number" step="1" autocomplete="off" /></div>
+      <div class="input-wrapper"><span>模拟速度(米/秒):</span><input v-model="speed" type="number" min="0.1" step=".5" autocomplete="off" /></div>
+      <div class="input-wrapper"><span>当前水位(米):</span><input v-model="currHeight" type="number" step="1" autocomplete="off" disabled /></div>
     </div>
     <div class="btn-group-simple">
       <a href="javascript:void(0);" class="btn-simple" @click="drawAnalyzeArea">绘制分析区域</a>
@@ -56,5 +56,11 @@ export default {
 <style>
 .parameter {
   padding: 10px;
+}
+.parameter .input-wrapper > span {
+  width: 110px;
+}
+.parameter .input-wrapper > input {
+  width: 227px;
 }
 </style>
