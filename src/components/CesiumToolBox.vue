@@ -24,13 +24,17 @@
 
 <script>
 import '@/assets/css/cesium-tool.css';
-import loading from './cesium-tools/Loading';
-const Stroller = () => ({ component: import('./cesium-tools/Stroller'), loading });
-const VideoWall = () => ({ component: import('./cesium-tools/VideoWall'), loading });
-const Measure = () => ({ component: import('./cesium-tools/Measure'), loading });
-const FloodAnalyze = () => ({ component: import('./cesium-tools/FloodAnalyze'), loading });
+import loading from '@/components/cesium-tools/Loading';
+const asyncImport = (...components) => {
+  let load = (component) => () => ({ component: import(`@/components/cesium-tools/${component}`), loading });
+  return components.flat().reduce((components, component) => {
+    components[component.name || component] = load(component);
+    return components;
+  }, {});
+};
+
 export default {
-  components: { Stroller, VideoWall, Measure, FloodAnalyze },
+  components: asyncImport('Stroller', 'VideoWall', 'Measure', 'FloodAnalyze'),
   data() {
     return {
       /**
