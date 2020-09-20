@@ -170,7 +170,7 @@ class FloodAnalyze extends MouseEvent {
             let duration = JulianDate.secondsDifference(time, startTime || (startTime = time));
             height = parseFloat(that.speed) * duration + parseFloat(that.minHeight);
           }
-          that.currHeight = height.toFixed(0);
+          that.currHeight = parseInt(height.toFixed(0));
           return height;
         }, false),
         material: Color.fromBytes(64, 157, 253, 150),
