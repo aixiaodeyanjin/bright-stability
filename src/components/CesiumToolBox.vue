@@ -28,8 +28,9 @@ import loading from './cesium-tools/Loading';
 const Stroller = () => ({ component: import('./cesium-tools/Stroller'), loading });
 const VideoWall = () => ({ component: import('./cesium-tools/VideoWall'), loading });
 const Measure = () => ({ component: import('./cesium-tools/Measure'), loading });
+const FloodAnalyze = () => ({ component: import('./cesium-tools/FloodAnalyze'), loading });
 export default {
-  components: { Stroller, VideoWall, Measure },
+  components: { Stroller, VideoWall, Measure, FloodAnalyze },
   data() {
     return {
       /**
