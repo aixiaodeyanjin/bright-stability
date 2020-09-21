@@ -249,22 +249,34 @@
               <div class="unit" v-text="item.houseName"></div>
               <div class="icon_room">
                 <div class="icon-item">
-                  <div class="iconfont icondanghui red" v-if="item.partyCot > 0"></div>
+                  <div class="value-room" v-if="item.partyCot > 0">
+                    <span class="iconfont icondanghui red"></span>
+                    <span class="red" v-text="item.partyCot"></span>
+                  </div>
                   <div class="nodata-line red" v-else>-</div>
                 </div>
 
                 <div class="icon-item">
-                  <div class="iconfont iconzhongdianrenyuan yellow" v-if="item.speciCot > 0"></div>
+                  <div class="value-room" v-if="item.speciCot > 0">
+                    <span class="iconfont iconzhongdianrenyuan yellow"></span>
+                    <span class="yellow" v-text="item.speciCot"></span>
+                  </div>
                   <div class="nodata-line yellow" v-else>-</div>
                 </div>
 
                 <div class="icon-item">
-                  <div class="iconfont iconwo blue" v-if="item.resdtCot > 0"></div>
+                  <div class="value-room" v-if="item.resdtCot > 0">
+                    <span class="iconfont iconwo blue"></span>
+                    <span class="blue" v-text="item.resdtCot"></span>
+                  </div>
                   <div class="nodata-line blue" v-else>-</div>
                 </div>
 
                 <div class="icon-item">
-                  <div class="iconfont iconzufang orange" v-if="item.tanetCot > 0"></div>
+                  <div class="value-room" v-if="item.tanetCot > 0">
+                    <span class="iconfont iconzufang orange"></span>
+                    <span class="orange" v-text="item.tanetCot"></span>
+                  </div>
                   <div class="nodata-line orange" v-else>-</div>
                 </div>
               </div>
@@ -303,7 +315,10 @@
                 </div>
                 <div class="icon_room">
                   <div class="iconfont icondanghui icon-item red" v-if="item.partyFlag == '1'"></div>
-                  <div class="iconfont iconzhongdianrenyuan icon-item yellow" v-if="item.speciFlag == '1'"></div>
+                  <div
+                    class="iconfont iconzhongdianrenyuan icon-item yellow"
+                    v-if="item.speciFlag == '1'"
+                  ></div>
                   <div class="iconfont iconwo icon-item blue" v-if="item.resdtFlag == '1'"></div>
                   <div class="iconfont iconzufang icon-item orange" v-if="item.tanetFlag == '1'"></div>
                 </div>
@@ -489,7 +504,7 @@ export default {
     };
   },
   mounted() {
-    this.getAllMemberInfo()
+    this.getAllMemberInfo();
     // 初始化cesium
     const viewer = CesiumViewerFactory.getDefaultMap('cesiumContainer');
     this.viewer = viewer;
@@ -553,11 +568,10 @@ export default {
       let resp = await this.$get('http://nbol.liaodukeji.com/api_bright/buildingList', {
         org_id: '57fde62fceb011e9aa9100163e0d9e7f',
       });
-        
+
       if (resp.code == 1) {
         _this.buildingAllInfo = resp.data;
       }
-      
     },
     searchInput(e, index) {
       // 搜索输入框输入内容

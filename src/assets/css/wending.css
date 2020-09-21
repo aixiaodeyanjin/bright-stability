@@ -1567,6 +1567,10 @@ a {
     text-align: center;
 }
 
+.build_info .second .list .item .icon_room .icon-item .iconfont {
+    font-size: 0.14rem;
+}
+
 .build_info .second .list .item .icon_room .icon-item .nodata-line {
     font-size: 0.14rem;
 }
