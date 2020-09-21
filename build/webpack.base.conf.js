@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-09-21 10:16:08
+ * @LastEditTime: 2020-09-21 10:37:56
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \xueliangPro\build\webpack.base.conf.js
+ */
 'use strict'
 const path = require('path')
 const utils = require('./utils')
@@ -9,14 +17,14 @@ function resolve (dir) {
 }
 
 const createLintingRule = () => ({
-  test: /\.(js|vue)$/,
-  loader: 'eslint-loader',
-  enforce: 'pre',
-  include: [resolve('src'), resolve('test')],
-  options: {
-    formatter: require('eslint-friendly-formatter'),
-    emitWarning: !config.dev.showEslintErrorsInOverlay
-  }
+  // test: /\.(js|vue)$/,
+  // loader: 'eslint-loader',
+  // enforce: 'pre',
+  // include: [resolve('src'), resolve('test')],
+  // options: {
+  //   formatter: require('eslint-friendly-formatter'),
+  //   emitWarning: !config.dev.showEslintErrorsInOverlay
+  // }
 })
 
 module.exports = {

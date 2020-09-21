@@ -9,17 +9,38 @@
       <div class="menus_search" v-show="showSearchDom">
         <div class="tabbar">
           <div class="switch">
-            <div class="item" :class="{ item_choose: searchChooseIndex == index }" v-for="(item, index) in searchList" @click="changeSearchTab(index)" :key="index">
+            <div
+              class="item"
+              :class="{ item_choose: searchChooseIndex == index }"
+              v-for="(item, index) in searchList"
+              @click="changeSearchTab(index)"
+              :key="index"
+            >
               <div class="value" v-text="item.title"></div>
               <div class="bar"></div>
             </div>
           </div>
         </div>
 
-        <div class="search_room" :class="{ first: index == 0, second: index == 1 }" v-show="searchChooseIndex == index" v-for="(item, index) in searchList" :key="index">
+        <div
+          class="search_room"
+          :class="{ first: index == 0, second: index == 1 }"
+          v-show="searchChooseIndex == index"
+          v-for="(item, index) in searchList"
+          :key="index"
+        >
           <template v-if="searchChooseIndex == 0">
-            <div class="select" :class="{ selected: item.focusIndex == selectIndex }" v-for="(selectItem, selectIndex) in item.itemList" @click.stop="openSelect(selectIndex)" :key="selectIndex">
-              <div class="value" v-text="selectItem.title ? selectItem.title : selectItem.defaultTitle"></div>
+            <div
+              class="select"
+              :class="{ selected: item.focusIndex == selectIndex }"
+              v-for="(selectItem, selectIndex) in item.itemList"
+              @click.stop="openSelect(selectIndex)"
+              :key="selectIndex"
+            >
+              <div
+                class="value"
+                v-text="selectItem.title ? selectItem.title : selectItem.defaultTitle"
+              ></div>
 
               <div class="direction" :class="{ up: item.focusIndex == selectIndex }">
                 <div class="point"></div>
@@ -31,7 +52,13 @@
               <div class="bottom-left-bar"></div>
 
               <div class="options" v-show="item.focusIndex == selectIndex">
-                <div class="item" :class="{ item_choose: idx == selectItem.chooseIndex }" v-for="(option, idx) in selectItem.list" @click.stop="chooseSelectOptions(selectIndex, idx)" :key="idx">
+                <div
+                  class="item"
+                  :class="{ item_choose: idx == selectItem.chooseIndex }"
+                  v-for="(option, idx) in selectItem.list"
+                  @click.stop="chooseSelectOptions(selectIndex, idx)"
+                  :key="idx"
+                >
                   <div class="text" v-text="option.name"></div>
                   <div class="point"></div>
                 </div>
@@ -39,9 +66,18 @@
             </div>
           </template>
           <template v-if="searchChooseIndex == 1">
-            <div class="select input" v-for="(inputItem, inputIndex) in item.itemList" :key="inputIndex">
+            <div
+              class="select input"
+              v-for="(inputItem, inputIndex) in item.itemList"
+              :key="inputIndex"
+            >
               <!-- <div class="input_title" v-text="inputItem.title"></div> -->
-              <input :type="inputItem.type" :placeholder="inputItem.placeholder" :value="inputItem.value" @input="searchInput($event, inputIndex)" />
+              <input
+                :type="inputItem.type"
+                :placeholder="inputItem.placeholder"
+                :value="inputItem.value"
+                @input="searchInput($event, inputIndex)"
+              />
               <div class="bottom-direction"></div>
               <div class="bottom-left-bar"></div>
             </div>
@@ -53,38 +89,42 @@
         <!-- <div class="close_btn" @click="changeSearchDomShow">
                     <div class="line"></div>
                     <div class="line"></div>
-                </div> -->
+        </div>-->
       </div>
 
       <div class="icon_tip_room">
         <div class="item">
-          <img class="image" src="@/assets/img/stability/people/dangyuan @2x.png" alt="" />
+          <!-- <img class="image" src="@/assets/img/stability/people/dangyuan @2x.png" alt /> -->
+          <div class="iconfont icondanghui image red"></div>
           <div class="info-item">
-            <div class="num red">156</div>
+            <div class="num red" v-text="buildingAllInfo.party_number"></div>
             <div class="text">党员</div>
           </div>
         </div>
 
         <div class="item">
-          <img class="image" src="@/assets/img/stability/people/changzhurenkou @2x.png" alt="" />
+          <!-- <img class="image" src="@/assets/img/stability/people/zhongdianrenyuan@2x.png" alt /> -->
+          <div class="iconfont iconzhongdianrenyuan image yellow"></div>
           <div class="info-item">
-            <div class="num blue">32</div>
-            <div class="text">常住入口</div>
-          </div>
-        </div>
-
-        <div class="item">
-          <img class="image" src="@/assets/img/stability/people/zhongdianrenyuan@2x.png" alt="" />
-          <div class="info-item">
-            <div class="num yellow">156</div>
+            <div class="num yellow" v-text="buildingAllInfo.safe_people_attention"></div>
             <div class="text">重点人员</div>
           </div>
         </div>
 
         <div class="item">
-          <img class="image" src="@/assets/img/stability/people/chuzuhu@2x.png" alt="" />
+          <!-- <img class="image" src="@/assets/img/stability/people/changzhurenkou @2x.png" alt /> -->
+          <div class="iconfont iconwo image blue"></div>
           <div class="info-item">
-            <div class="num orange">2</div>
+            <div class="num blue" v-text="buildingAllInfo.safe_people_live"></div>
+            <div class="text">常住入口</div>
+          </div>
+        </div>
+
+        <div class="item">
+          <!-- <img class="image" src="@/assets/img/stability/people/chuzuhu@2x.png" alt /> -->
+          <div class="iconfont iconzufang image orange"></div>
+          <div class="info-item">
+            <div class="num orange" v-text="buildingAllInfo.safe_people_floating"></div>
             <div class="text">出租户</div>
           </div>
         </div>
@@ -97,10 +137,20 @@
         </div>
         <div class="tabbar" v-if="searchChooseIndex != 1">
           <div class="switch">
-            <div class="item" :class="{ item_choose: nowTabIndex == index }" v-for="(item, index) in tabList" @click="changeInfoTable(index)" :key="index">
+            <div
+              class="item"
+              :class="{ item_choose: nowTabIndex == index }"
+              v-for="(item, index) in tabList"
+              @click="changeInfoTable(index)"
+              :key="index"
+            >
               <div class="item_title" v-text="item.title"></div>
               <div class="bar">
-                <div class="close" v-show="nowTabIndex == index" @click.stop="closeInfoTable(index)">
+                <div
+                  class="close"
+                  v-show="nowTabIndex == index"
+                  @click.stop="closeInfoTable(index)"
+                >
                   <div class="line"></div>
                   <div class="line"></div>
                 </div>
@@ -122,12 +172,12 @@
               </div>
 
               <div class="item">
-                <div class="iconfont icondangyuan image blue"></div>
+                <div class="iconfont iconzhongdianrenyuan image yellow"></div>
                 <div class="num" v-text="buildInfo.summaryInfo.speciCot + '人'"></div>
               </div>
 
               <div class="item">
-                <div class="iconfont iconwo image yellow"></div>
+                <div class="iconfont iconwo image blue"></div>
                 <div class="num" v-text="buildInfo.summaryInfo.resdtCot + '人'"></div>
               </div>
 
@@ -139,7 +189,13 @@
           </div>
 
           <div class="list" v-if="buildInfo.cellInfo.length > 0">
-            <div class="item" :class="{ choose_item: buildChooseIndex === index }" v-for="(item, index) in buildInfo.cellInfo" @click="changeBuild(index)" :key="index">
+            <div
+              class="item"
+              :class="{ choose_item: buildChooseIndex === index }"
+              v-for="(item, index) in buildInfo.cellInfo"
+              @click="changeBuild(index)"
+              :key="index"
+            >
               <div class="title_room">
                 <div class="title_text" v-text="item.cellName"></div>
                 <div class="item_info">
@@ -157,12 +213,12 @@
                 </div>
 
                 <div class="btn">
-                  <div class="iconfont icondangyuan blue"></div>
+                  <div class="iconfont iconzhongdianrenyuan yellow"></div>
                   <div class="num" v-text="item.speciCot + '人'"></div>
                 </div>
 
                 <div class="btn">
-                  <div class="iconfont iconwo yellow"></div>
+                  <div class="iconfont iconwo blue"></div>
                   <div class="num" v-text="item.resdtCot + '人'"></div>
                 </div>
 
@@ -183,8 +239,13 @@
           <div class="list" v-if="unitList.length > 0">
             <!-- <div class="item"
                             :class="{'orange': item.speciCot > 0, 'yellow': item.tanetCot > 0, 'red': item.partyCot > 0}"
-                            v-for="(item, index) in unitList" @click="changeUnit(index)"> -->
-            <div class="item" v-for="(item, index) in unitList" @click="changeUnit(index)" :key="index">
+            v-for="(item, index) in unitList" @click="changeUnit(index)">-->
+            <div
+              class="item"
+              v-for="(item, index) in unitList"
+              @click="changeUnit(index)"
+              :key="index"
+            >
               <div class="unit" v-text="item.houseName"></div>
               <div class="icon_room">
                 <div class="icon-item">
@@ -193,17 +254,17 @@
                 </div>
 
                 <div class="icon-item">
-                  <div class="iconfont iconzufang blue" v-if="item.tanetCot > 0"></div>
-                  <div class="nodata-line blue" v-else>-</div>
-                </div>
-
-                <div class="icon-item">
-                  <div class="iconfont iconwo yellow" v-if="item.resdtCot > 0"></div>
+                  <div class="iconfont iconzhongdianrenyuan yellow" v-if="item.speciCot > 0"></div>
                   <div class="nodata-line yellow" v-else>-</div>
                 </div>
 
                 <div class="icon-item">
-                  <div class="iconfont icondangyuan orange" v-if="item.speciCot > 0"></div>
+                  <div class="iconfont iconwo blue" v-if="item.resdtCot > 0"></div>
+                  <div class="nodata-line blue" v-else>-</div>
+                </div>
+
+                <div class="icon-item">
+                  <div class="iconfont iconzufang orange" v-if="item.tanetCot > 0"></div>
                   <div class="nodata-line orange" v-else>-</div>
                 </div>
               </div>
@@ -215,19 +276,35 @@
           </div>
         </div>
 
-        <div class="table third" :class="{ third_2: searchChooseIndex == 1 }" v-if="nowTabIndex == 2 || searchChooseIndex == 1">
+        <div
+          class="table third"
+          :class="{ third_2: searchChooseIndex == 1 }"
+          v-if="nowTabIndex == 2 || searchChooseIndex == 1"
+        >
           <div class="list" v-if="houseList.length > 0">
-            <div class="item" :class="{ choose_item: houseChooseIndex == index }" v-for="(item, index) in houseList" @click="changeHouse(index, item.local)" :value="item.local" :key="index">
+            <div
+              class="item"
+              :class="{ choose_item: houseChooseIndex == index }"
+              v-for="(item, index) in houseList"
+              @click="changeHouse(index, item.local)"
+              :value="item.local"
+              :key="index"
+            >
               <div class="left">
                 <div class="info">
-                  <div class="name" v-text="item.name_hidden" @click="changeInputPasswordDom(1, index)" v-if="item.speciFlag == '1' && !item.hasShowFullInfo"></div>
+                  <div
+                    class="name"
+                    v-text="item.name_hidden"
+                    @click="changeInputPasswordDom(1, index)"
+                    v-if="item.speciFlag == '1' && !item.hasShowFullInfo"
+                  ></div>
                   <div class="name" v-text="item.userName" v-else></div>
                   <div class="sexual" v-text="item.sex == '1' ? '男' : '女'"></div>
                 </div>
                 <div class="icon_room">
                   <div class="iconfont icondanghui icon-item red" v-if="item.partyFlag == '1'"></div>
-                  <div class="iconfont icondangyuan icon-item blue" v-if="item.speciFlag == '1'"></div>
-                  <div class="iconfont iconwo icon-item yellow" v-if="item.resdtFlag == '1'"></div>
+                  <div class="iconfont iconzhongdianrenyuan icon-item yellow" v-if="item.speciFlag == '1'"></div>
+                  <div class="iconfont iconwo icon-item blue" v-if="item.resdtFlag == '1'"></div>
                   <div class="iconfont iconzufang icon-item orange" v-if="item.tanetFlag == '1'"></div>
                 </div>
               </div>
@@ -238,14 +315,24 @@
                 <div class="info">
                   <!-- <img class="image" src="./img/icons/shenfenzheng@2x.png" alt=""> -->
                   <i class="iconfont iconshenfenzheng"></i>
-                  <div class="value" @click="changeInputPasswordDom(1, index)" v-if="!item.hasShowFullInfo" v-text="item.cad_hidden"></div>
+                  <div
+                    class="value"
+                    @click="changeInputPasswordDom(1, index)"
+                    v-if="!item.hasShowFullInfo"
+                    v-text="item.cad_hidden"
+                  ></div>
                   <div class="value" v-else v-text="item.cad"></div>
                 </div>
 
                 <div class="info">
                   <!-- <img class="image" src="./img/icons/shoujihao@2x.png" alt=""> -->
                   <i class="iconfont iconshoujihao"></i>
-                  <div class="value" @click="changeInputPasswordDom(1, index)" v-if="!item.hasShowFullInfo" v-text="item.pho_hidden"></div>
+                  <div
+                    class="value"
+                    @click="changeInputPasswordDom(1, index)"
+                    v-if="!item.hasShowFullInfo"
+                    v-text="item.pho_hidden"
+                  ></div>
                   <div class="value" v-else v-text="item.pho"></div>
                 </div>
 
@@ -276,11 +363,23 @@
         </div>
       </div>
 
-      <div class="password_input_room" :class="{ password_input_room_show: showInputPasswordDom }" @click="changeInputPasswordDom(0)" v-show="showInputPasswordDom">
+      <div
+        class="password_input_room"
+        :class="{ password_input_room_show: showInputPasswordDom }"
+        @click="changeInputPasswordDom(0)"
+        v-show="showInputPasswordDom"
+      >
         <div class="room" @click.stop="changeInputPasswordDom(1)">
           <div class="room_title">查看该信息需要更高权限</div>
           <div class="input_room">
-            <input type="password" class="input" placeholder="请输入密码" :value="inputPasswordValue" @input="inputPassword($event)" @keyup.enter="judgePassword($event)" />
+            <input
+              type="password"
+              class="input"
+              placeholder="请输入密码"
+              :value="inputPasswordValue"
+              @input="inputPassword($event)"
+              @keyup.enter="judgePassword($event)"
+            />
           </div>
           <div class="ctrl_btn">
             <div class="btn" @click.stop="changeInputPasswordDom(0)">取消</div>
@@ -310,6 +409,7 @@ export default {
   components: { CesiumToolBox, Progress },
   data: function () {
     return {
+      buildingAllInfo: {},
       searchList: [
         {
           title: '房找人',
@@ -389,6 +489,7 @@ export default {
     };
   },
   mounted() {
+    this.getAllMemberInfo()
     // 初始化cesium
     const viewer = CesiumViewerFactory.getDefaultMap('cesiumContainer');
     this.viewer = viewer;
@@ -444,6 +545,19 @@ export default {
     clickMapToShowTable(tableIndex = 0, params) {
       // 点击地图标记点显示右侧信息汇总表格
       this.searchInfo(5, params);
+    },
+    async getAllMemberInfo() {
+      // 获取汇总信息
+      let _this = this;
+
+      let resp = await this.$get('http://nbol.liaodukeji.com/api_bright/buildingList', {
+        org_id: '57fde62fceb011e9aa9100163e0d9e7f',
+      });
+        
+      if (resp.code == 1) {
+        _this.buildingAllInfo = resp.data;
+      }
+      
     },
     searchInput(e, index) {
       // 搜索输入框输入内容
