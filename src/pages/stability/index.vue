@@ -9,38 +9,17 @@
       <div class="menus_search" v-show="showSearchDom">
         <div class="tabbar">
           <div class="switch">
-            <div
-              class="item"
-              :class="{ item_choose: searchChooseIndex == index }"
-              v-for="(item, index) in searchList"
-              @click="changeSearchTab(index)"
-              :key="index"
-            >
+            <div class="item" :class="{ item_choose: searchChooseIndex == index }" v-for="(item, index) in searchList" @click="changeSearchTab(index)" :key="index">
               <div class="value" v-text="item.title"></div>
               <div class="bar"></div>
             </div>
           </div>
         </div>
 
-        <div
-          class="search_room"
-          :class="{ first: index == 0, second: index == 1 }"
-          v-show="searchChooseIndex == index"
-          v-for="(item, index) in searchList"
-          :key="index"
-        >
+        <div class="search_room" :class="{ first: index == 0, second: index == 1 }" v-show="searchChooseIndex == index" v-for="(item, index) in searchList" :key="index">
           <template v-if="searchChooseIndex == 0">
-            <div
-              class="select"
-              :class="{ selected: item.focusIndex == selectIndex }"
-              v-for="(selectItem, selectIndex) in item.itemList"
-              @click.stop="openSelect(selectIndex)"
-              :key="selectIndex"
-            >
-              <div
-                class="value"
-                v-text="selectItem.title ? selectItem.title : selectItem.defaultTitle"
-              ></div>
+            <div class="select" :class="{ selected: item.focusIndex == selectIndex }" v-for="(selectItem, selectIndex) in item.itemList" @click.stop="openSelect(selectIndex)" :key="selectIndex">
+              <div class="value" v-text="selectItem.title ? selectItem.title : selectItem.defaultTitle"></div>
 
               <div class="direction" :class="{ up: item.focusIndex == selectIndex }">
                 <div class="point"></div>
@@ -52,13 +31,7 @@
               <div class="bottom-left-bar"></div>
 
               <div class="options" v-show="item.focusIndex == selectIndex">
-                <div
-                  class="item"
-                  :class="{ item_choose: idx == selectItem.chooseIndex }"
-                  v-for="(option, idx) in selectItem.list"
-                  @click.stop="chooseSelectOptions(selectIndex, idx)"
-                  :key="idx"
-                >
+                <div class="item" :class="{ item_choose: idx == selectItem.chooseIndex }" v-for="(option, idx) in selectItem.list" @click.stop="chooseSelectOptions(selectIndex, idx)" :key="idx">
                   <div class="text" v-text="option.name"></div>
                   <div class="point"></div>
                 </div>
@@ -66,18 +39,9 @@
             </div>
           </template>
           <template v-if="searchChooseIndex == 1">
-            <div
-              class="select input"
-              v-for="(inputItem, inputIndex) in item.itemList"
-              :key="inputIndex"
-            >
+            <div class="select input" v-for="(inputItem, inputIndex) in item.itemList" :key="inputIndex">
               <!-- <div class="input_title" v-text="inputItem.title"></div> -->
-              <input
-                :type="inputItem.type"
-                :placeholder="inputItem.placeholder"
-                :value="inputItem.value"
-                @input="searchInput($event, inputIndex)"
-              />
+              <input :type="inputItem.type" :placeholder="inputItem.placeholder" :value="inputItem.value" @input="searchInput($event, inputIndex)" />
               <div class="bottom-direction"></div>
               <div class="bottom-left-bar"></div>
             </div>
@@ -137,20 +101,10 @@
         </div>
         <div class="tabbar" v-if="searchChooseIndex != 1">
           <div class="switch">
-            <div
-              class="item"
-              :class="{ item_choose: nowTabIndex == index }"
-              v-for="(item, index) in tabList"
-              @click="changeInfoTable(index)"
-              :key="index"
-            >
+            <div class="item" :class="{ item_choose: nowTabIndex == index }" v-for="(item, index) in tabList" @click="changeInfoTable(index)" :key="index">
               <div class="item_title" v-text="item.title"></div>
               <div class="bar">
-                <div
-                  class="close"
-                  v-show="nowTabIndex == index"
-                  @click.stop="closeInfoTable(index)"
-                >
+                <div class="close" v-show="nowTabIndex == index" @click.stop="closeInfoTable(index)">
                   <div class="line"></div>
                   <div class="line"></div>
                 </div>
@@ -189,13 +143,7 @@
           </div>
 
           <div class="list" v-if="buildInfo.cellInfo.length > 0">
-            <div
-              class="item"
-              :class="{ choose_item: buildChooseIndex === index }"
-              v-for="(item, index) in buildInfo.cellInfo"
-              @click="changeBuild(index)"
-              :key="index"
-            >
+            <div class="item" :class="{ choose_item: buildChooseIndex === index }" v-for="(item, index) in buildInfo.cellInfo" @click="changeBuild(index)" :key="index">
               <div class="title_room">
                 <div class="title_text" v-text="item.cellName"></div>
                 <div class="item_info">
@@ -240,12 +188,7 @@
             <!-- <div class="item"
                             :class="{'orange': item.speciCot > 0, 'yellow': item.tanetCot > 0, 'red': item.partyCot > 0}"
             v-for="(item, index) in unitList" @click="changeUnit(index)">-->
-            <div
-              class="item"
-              v-for="(item, index) in unitList"
-              @click="changeUnit(index)"
-              :key="index"
-            >
+            <div class="item" v-for="(item, index) in unitList" @click="changeUnit(index)" :key="index">
               <div class="unit" v-text="item.houseName"></div>
               <div class="icon_room">
                 <div class="icon-item">
@@ -288,37 +231,18 @@
           </div>
         </div>
 
-        <div
-          class="table third"
-          :class="{ third_2: searchChooseIndex == 1 }"
-          v-if="nowTabIndex == 2 || searchChooseIndex == 1"
-        >
+        <div class="table third" :class="{ third_2: searchChooseIndex == 1 }" v-if="nowTabIndex == 2 || searchChooseIndex == 1">
           <div class="list" v-if="houseList.length > 0">
-            <div
-              class="item"
-              :class="{ choose_item: houseChooseIndex == index }"
-              v-for="(item, index) in houseList"
-              @click="changeHouse(index, item.local)"
-              :value="item.local"
-              :key="index"
-            >
+            <div class="item" :class="{ choose_item: houseChooseIndex == index }" v-for="(item, index) in houseList" @click="changeHouse(index, item.local)" :value="item.local" :key="index">
               <div class="left">
                 <div class="info">
-                  <div
-                    class="name"
-                    v-text="item.name_hidden"
-                    @click="changeInputPasswordDom(1, index)"
-                    v-if="item.speciFlag == '1' && !item.hasShowFullInfo"
-                  ></div>
+                  <div class="name" v-text="item.name_hidden" @click="changeInputPasswordDom(1, index)" v-if="item.speciFlag == '1' && !item.hasShowFullInfo"></div>
                   <div class="name" v-text="item.userName" v-else></div>
                   <div class="sexual" v-text="item.sex == '1' ? '男' : '女'"></div>
                 </div>
                 <div class="icon_room">
                   <div class="iconfont icondanghui icon-item red" v-if="item.partyFlag == '1'"></div>
-                  <div
-                    class="iconfont iconzhongdianrenyuan icon-item yellow"
-                    v-if="item.speciFlag == '1'"
-                  ></div>
+                  <div class="iconfont iconzhongdianrenyuan icon-item yellow" v-if="item.speciFlag == '1'"></div>
                   <div class="iconfont iconwo icon-item blue" v-if="item.resdtFlag == '1'"></div>
                   <div class="iconfont iconzufang icon-item orange" v-if="item.tanetFlag == '1'"></div>
                 </div>
@@ -330,24 +254,14 @@
                 <div class="info">
                   <!-- <img class="image" src="./img/icons/shenfenzheng@2x.png" alt=""> -->
                   <i class="iconfont iconshenfenzheng"></i>
-                  <div
-                    class="value"
-                    @click="changeInputPasswordDom(1, index)"
-                    v-if="!item.hasShowFullInfo"
-                    v-text="item.cad_hidden"
-                  ></div>
+                  <div class="value" @click="changeInputPasswordDom(1, index)" v-if="!item.hasShowFullInfo" v-text="item.cad_hidden"></div>
                   <div class="value" v-else v-text="item.cad"></div>
                 </div>
 
                 <div class="info">
                   <!-- <img class="image" src="./img/icons/shoujihao@2x.png" alt=""> -->
                   <i class="iconfont iconshoujihao"></i>
-                  <div
-                    class="value"
-                    @click="changeInputPasswordDom(1, index)"
-                    v-if="!item.hasShowFullInfo"
-                    v-text="item.pho_hidden"
-                  ></div>
+                  <div class="value" @click="changeInputPasswordDom(1, index)" v-if="!item.hasShowFullInfo" v-text="item.pho_hidden"></div>
                   <div class="value" v-else v-text="item.pho"></div>
                 </div>
 
@@ -378,23 +292,11 @@
         </div>
       </div>
 
-      <div
-        class="password_input_room"
-        :class="{ password_input_room_show: showInputPasswordDom }"
-        @click="changeInputPasswordDom(0)"
-        v-show="showInputPasswordDom"
-      >
+      <div class="password_input_room" :class="{ password_input_room_show: showInputPasswordDom }" @click="changeInputPasswordDom(0)" v-show="showInputPasswordDom">
         <div class="room" @click.stop="changeInputPasswordDom(1)">
           <div class="room_title">查看该信息需要更高权限</div>
           <div class="input_room">
-            <input
-              type="password"
-              class="input"
-              placeholder="请输入密码"
-              :value="inputPasswordValue"
-              @input="inputPassword($event)"
-              @keyup.enter="judgePassword($event)"
-            />
+            <input type="password" class="input" placeholder="请输入密码" :value="inputPasswordValue" @input="inputPassword($event)" @keyup.enter="judgePassword($event)" />
           </div>
           <div class="ctrl_btn">
             <div class="btn" @click.stop="changeInputPasswordDom(0)">取消</div>
@@ -420,6 +322,8 @@ import 'cesium/Source/Widgets/widgets.css';
 import { CesiumMapContext, MapContextHolder, CesiumViewerFactory } from '@/assets/js/map';
 import CesiumToolBox from '@/components/CesiumToolBox';
 import Progress from 'easy-circular-progress';
+var path = require('path');
+const modifyHtmlImgTagSrc = (html, src) => html.replace(/(<img [^>]*src=)['"]([^'"]+)[^>]*(>)/gi, (match, $1, $2, $3) => `${$1}${require('@/assets/img/demo/' + path.basename($2))}${$3}`);
 export default {
   components: { CesiumToolBox, Progress },
   data: function () {
@@ -523,7 +427,7 @@ export default {
         if (pick.id.code == 8888 || pick.id.code == 9999) {
           // 党员活动中心8888居民活动中心9999
           content += pick.id.description;
-          playWindContent.innerHTML = content;
+          playWindContent.innerHTML = modifyHtmlImgTagSrc(content);
           playWind.style.display = 'block';
           playWind.style.left = e.position.x + 'px';
           playWind.style.top = e.position.y + 'px';
