@@ -972,7 +972,7 @@ export default {
 }
 .vue-circular-progress {
   position: absolute;
-  z-index: 1;
+  z-index: 10000000;
   font-size: 10px;
   bottom: 0px;
   height: 24px;
