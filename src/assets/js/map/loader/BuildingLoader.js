@@ -15,7 +15,7 @@ export default function loadBuildingInfo(viewer) {
       data.forEach((element) => {
         let x = element.local.split(',')[0] * 1;
         let y = element.local.split(',')[1] * 1;
-        let h = 56;
+        let h = 57;
         var position = Cesium.Cartesian3.fromDegrees(x, y, h);
         var heading = Cesium.Math.toRadians(90);
         var pitch = 0;
