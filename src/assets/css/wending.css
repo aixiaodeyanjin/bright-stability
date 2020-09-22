@@ -1,44 +1,46 @@
+/* Those fonts is load by webfont in main.js */
+
 /* 苹方-简 常规体 */
-@font-face {
+/* @font-face {
     font-family: PingFangSC-Regular;
     src: url("../iconfont/PingFangSC-Regular.ttf");
-}
+} */
 
 /* 苹方-简 极细体 */
-@font-face {
+/* @font-face {
     font-family: PingFangSC-Light;
     src: url("../iconfont/PingFangSC-Regular.ttf");
-}
+} */
 
 /* 苹方-简 细体 */
-@font-face {
+/* @font-face {
     font-family: PingFangSC-Ultralight;
     src: url("../iconfont/PingFangSC-Regular.ttf");
-}
+} */
 
 /* 苹方-简 纤细体 */
-@font-face {
+/* @font-face {
     font-family: PingFangSC-Thin;
     src: url("../iconfont/PingFangSC-Regular.ttf");
-}
+} */
 
 /* 苹方-简 中黑体 */
-@font-face {
+/* @font-face {
     font-family: PingFangSC-Medium;
     src: url("../iconfont/PingFangSC-Regular.ttf");
-}
+} */
 
 /* 苹方-简 中粗体 */
-@font-face {
+/* @font-face {
     font-family: PingFangSC-Semibold;
     src: url("../iconfont/PingFangSC-Regular.ttf");
-}
+} */
 
 /* 方方先锋体 */
-@font-face {
+/* @font-face {
     font-family: zihun100hao-fangfangxianfengti;
     src: url("../iconfont/fangfangxianfeng.ttf")
-}
+} */
 
 body {
     font-size: 0.16rem;
